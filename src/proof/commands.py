@@ -7,6 +7,7 @@ from proof.actions import (
     MakeDirectories,
     MakeFiles,
     InstallDependencies,
+    WriteConfig,
 )
 
 def create_analysis(analysis_name: str) -> None:
@@ -23,3 +24,4 @@ def create_analysis(analysis_name: str) -> None:
     MakeDirectories(context).create()
     MakeFiles(context).create()
     InstallDependencies(context).create()
+    WriteConfig(context).create()

@@ -1,4 +1,5 @@
 from proof.actions.context import AnalysisContext
+from proof.config import PROOF_CONFIG_FILE_NAME, NOTEBOOK_FILE_NAME
 
 
 class MakeFiles():
@@ -7,4 +8,5 @@ class MakeFiles():
 
     def create(self) -> None:
         root = self.context.analysis_root
-        (root / "notebook.py").touch()
+        (root / NOTEBOOK_FILE_NAME).touch()
+        (root / PROOF_CONFIG_FILE_NAME).touch()
