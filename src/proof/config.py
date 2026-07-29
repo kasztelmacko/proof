@@ -1,7 +1,7 @@
 from typing import Literal
 
 PROOF_CONFIG_FILE_NAME = "proof.toml"
-NOTEBOOK_FILE_NAME = "notebook.py"
+DEFAULT_NOTEBOOK_FILE_NAME = "notebook"
 
 PkgManager = Literal["poetry", "uv", "pip", "conda"]
 PACKAGE_MANAGER_INDICATORS = {

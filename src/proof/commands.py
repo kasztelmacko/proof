@@ -9,8 +9,9 @@ from proof.actions import (
     InstallDependencies,
     WriteConfig,
 )
+from proof.config import DEFAULT_NOTEBOOK_FILE_NAME
 
-def create_analysis(analysis_name: str) -> None:
+def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FILE_NAME) -> None:
     project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
@@ -22,6 +23,6 @@ def create_analysis(analysis_name: str) -> None:
     )
 
     MakeDirectories(context).create()
-    MakeFiles(context).create()
+    MakeFiles(context).create(notebook_name=notebook_name)
     InstallDependencies(context).create()
     WriteConfig(context).create()

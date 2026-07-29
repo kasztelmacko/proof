@@ -1,12 +1,13 @@
 from proof.actions.context import AnalysisContext
-from proof.config import PROOF_CONFIG_FILE_NAME, NOTEBOOK_FILE_NAME
+from proof.config import PROOF_CONFIG_FILE_NAME, DEFAULT_NOTEBOOK_FILE_NAME
 
 
 class MakeFiles():
     def __init__(self, context: AnalysisContext):
         self.context = context
 
-    def create(self) -> None:
+    def create(self, notebook_name: str = DEFAULT_NOTEBOOK_FILE_NAME) -> None:
         root = self.context.analysis_root
-        (root / NOTEBOOK_FILE_NAME).touch()
+        notebook_file = notebook_name + ".py"
+        (root / notebook_file).touch()
         (root / PROOF_CONFIG_FILE_NAME).touch()

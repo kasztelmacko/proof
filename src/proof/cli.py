@@ -3,7 +3,7 @@ from typing import Annotated
 
 from proof.utils import run_command
 from proof.commands import create_analysis
-from proof.config import ModelsCLI
+from proof.config import ModelsCLI, DEFAULT_NOTEBOOK_FILE_NAME
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 
@@ -12,9 +12,17 @@ def create(
     analysis_name: Annotated[
         str,
         typer.Argument(help="Folder name of the analysis"),
-    ]
+    ],
+    notebook_name: Annotated[
+        str,
+        typer.Option(
+            "--notebook_name",
+            "-n",
+            help="name for analysis notebook name"
+        )
+    ] = DEFAULT_NOTEBOOK_FILE_NAME
 ) -> None:
-    run_command(lambda: create_analysis(analysis_name=analysis_name))
+    run_command(lambda: create_analysis(analysis_name=analysis_name, notebook_name=notebook_name))
 
 @app.command()
 def start(
