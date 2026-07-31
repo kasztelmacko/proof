@@ -3,9 +3,7 @@ from pathlib import Path
 
 PROOF_CONFIG_FILE_NAME = "proof.toml"
 PROOF_TEMPLATES_PATH = "templates"
-
-PI_AGENT_PATH = Path("pi") / "agent"
-PI_AGENT_AUTH_FILE_NAME = "auth.json"
+PROOF_TEMPLATE_ENV_FILE_NAME = ".env.example"
 
 CONTEXT_FILE_PATH = Path("context")
 NOTES_FILE_PATH = Path("notes")

@@ -1,6 +1,5 @@
 from proof.config import (
-    PI_AGENT_PATH,
-    PI_AGENT_AUTH_FILE_NAME
+    PROOF_TEMPLATE_ENV_FILE_NAME
 )
 from proof.actions import AnalysisContext
 
@@ -13,13 +12,9 @@ class CopyFiles:
         self.analysis_context = analysis_context
 
     def create(self) -> None:
-        pi_auth_path = (
-            self.analysis_context.analysis_root
-            / PI_AGENT_PATH
-            / PI_AGENT_AUTH_FILE_NAME
-        )
+        root = self.analysis_context.analysis_root
 
-        template_auth = files("proof.templates").joinpath(PI_AGENT_AUTH_FILE_NAME)
+        template_auth = files("proof.templates").joinpath(PROOF_TEMPLATE_ENV_FILE_NAME)
 
         with as_file(template_auth) as src:
-            copyfile(src, pi_auth_path)
+            copyfile(src, root / ".env")

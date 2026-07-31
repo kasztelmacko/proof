@@ -25,6 +25,7 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FI
         pkg_manager=pkg_manager
     )
 
+    RunBashCommands(analysis_context).create()
     MakeDirectories(analysis_context).create()
     MakeFiles(analysis_context).create(notebook_name=notebook_name)
     CopyFiles(analysis_context).create()
