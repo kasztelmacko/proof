@@ -3,7 +3,7 @@ from typing import Annotated
 
 from proof.utils import run_command
 from proof.commands import create_analysis, start_session
-from proof.config import ModelsCLI, DEFAULT_NOTEBOOK_FILE_NAME
+from proof.config import DEFAULT_NOTEBOOK_FILE_NAME
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 
@@ -33,13 +33,9 @@ def start(
     notebook_name: Annotated[
         str,
         typer.Argument(help="name of a notebook to run")
-    ],
-    model_cli: Annotated[
-        ModelsCLI,
-        typer.Argument(help="CLI model to use for the analysis")
-    ],
+    ]
 ) -> None:
-    run_command(lambda: start_session(analysis_name=analysis_name, notebook_name=notebook_name, model_cli=model_cli))
+    run_command(lambda: start_session(analysis_name=analysis_name, notebook_name=notebook_name))
 
 
 if __name__ == "__main__":

@@ -7,11 +7,12 @@ from proof.actions import (
     SessionContext,
     MakeDirectories,
     MakeFiles,
+    CopyFiles,
     InstallDependencies,
-    WriteConfig,
+    WriteToFiles,
     RunBashCommands
 )
-from proof.config import DEFAULT_NOTEBOOK_FILE_NAME, ModelsCLI
+from proof.config import DEFAULT_NOTEBOOK_FILE_NAME
 
 def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FILE_NAME) -> None:
     project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
@@ -26,11 +27,12 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FI
 
     MakeDirectories(analysis_context).create()
     MakeFiles(analysis_context).create(notebook_name=notebook_name)
+    CopyFiles(analysis_context).create()
     InstallDependencies(analysis_context).create()
-    WriteConfig(analysis_context).create()
+    WriteToFiles(analysis_context).create()
 
 
-def start_session(analysis_name: str, notebook_name: str, model_cli: ModelsCLI) -> None:
+def start_session(analysis_name: str, notebook_name: str) -> None:
     project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
@@ -42,7 +44,6 @@ def start_session(analysis_name: str, notebook_name: str, model_cli: ModelsCLI) 
     )
 
     session_context = SessionContext(
-        model_cli=model_cli,
         notebook_name=notebook_name
     )
 

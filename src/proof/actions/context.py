@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from pathlib import Path
-from proof.config import ModelsCLI
 
 
 @dataclass
@@ -12,5 +11,4 @@ class AnalysisContext:
 
 @dataclass
 class SessionContext:
-    model_cli: ModelsCLI
     notebook_name: str

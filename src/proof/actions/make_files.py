@@ -1,5 +1,8 @@
 from proof.actions.context import AnalysisContext
-from proof.config import PROOF_CONFIG_FILE_NAME, DEFAULT_NOTEBOOK_FILE_NAME
+from proof.config import (
+    PROOF_CONFIG_FILE_NAME, 
+    DEFAULT_NOTEBOOK_FILE_NAME, 
+)
 
 
 class MakeFiles():

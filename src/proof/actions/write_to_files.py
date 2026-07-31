@@ -1,8 +1,11 @@
 from proof.actions.context import AnalysisContext
-from proof.config import PROOF_CONFIG_FILE_NAME
+from proof.config import (
+    PROOF_CONFIG_FILE_NAME, 
+)
+from shutil import copyfile
 
 
-class WriteConfig():
+class WriteToFiles():
     def __init__(self, analysis_context: AnalysisContext):
         self.analysis_context = analysis_context
 
@@ -12,3 +15,4 @@ class WriteConfig():
             f'pkg_manager = "{self.analysis_context.pkg_manager}"\n',
             encoding="utf-8"
         )
+
