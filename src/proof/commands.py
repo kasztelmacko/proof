@@ -12,9 +12,9 @@ from proof.actions import (
     WriteToFiles,
     RunBashCommands
 )
-from proof.config import DEFAULT_NOTEBOOK_FILE_NAME
+from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
 
-def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FILE_NAME) -> None:
+def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTEBOOK_FILE_NAME) -> None:
     project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
@@ -33,7 +33,7 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_NOTEBOOK_FI
     WriteToFiles(analysis_context).create()
 
 
-def start_session(analysis_name: str, notebook_name: str) -> None:
+def start_session(analysis_name: str, notebook_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
     project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
@@ -45,7 +45,8 @@ def start_session(analysis_name: str, notebook_name: str) -> None:
     )
 
     session_context = SessionContext(
-        notebook_name=notebook_name
+        notebook_name=notebook_name,
+        notebook_port=notebook_port
     )
 
     RunBashCommands(analysis_context, session_context).start()

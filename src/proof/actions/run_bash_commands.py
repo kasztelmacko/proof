@@ -1,5 +1,9 @@
 from proof.actions import AnalysisContext, SessionContext
-from proof.config import MARIMO_NOTEBOOK_EDIT_BASH
+from proof.config import (
+    MARIMO_NOTEBOOK_EDIT_BASH,
+    CLAUDE_STARTUP_MODEL,
+    CLAUDE_STARTUP_EFFORT
+)
 import subprocess
 import shutil
 import os
@@ -31,14 +35,15 @@ class RunBashCommands():
         root = self.analysis_context.analysis_root
         pkg_manager = self.analysis_context.pkg_manager
         notebook_name = self.session_context.notebook_name
+        notebook_port = self.session_context.notebook_port
 
         env = os.environ.copy()
         env.update(dotenv_values(root / ".env"))
 
-        initial_prompt = f"/marimo-pair pair with me on {notebook_name}"
+        initial_prompt = f"/marimo-pair pair with me on {notebook_name} on port {notebook_port}"
 
         subprocess.Popen(
-            [pkg_manager, *MARIMO_NOTEBOOK_EDIT_BASH, notebook_name],
+            [pkg_manager, *MARIMO_NOTEBOOK_EDIT_BASH, notebook_name, "--port" , notebook_port],
             cwd=root,
             env=env,
             start_new_session=True,
@@ -46,7 +51,12 @@ class RunBashCommands():
             stderr=subprocess.DEVNULL,
         )
         subprocess.run(
-            [shutil.which("claude"), initial_prompt],
+            [
+                shutil.which("claude"), 
+                "--model", CLAUDE_STARTUP_MODEL,
+                "--effort",  CLAUDE_STARTUP_EFFORT,
+                initial_prompt
+            ],
             cwd=root,
             env=env,
             check=True,

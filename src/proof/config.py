@@ -5,13 +5,16 @@ PROOF_CONFIG_FILE_NAME = "proof.toml"
 PROOF_ENV_FILE_NAME = ".env.example"
 PROOF_COPY_FILES_PATH = "copy_files"
 
-CLAUDE_AGENT_FILES_PATH = Path(".claude") 
+CLAUDE_AGENT_FILES_PATH = Path(".claude")
+CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
+CLAUDE_STARTUP_EFFORT = "medium"
 
 CONTEXT_FILE_PATH = Path("context")
 NOTES_FILE_PATH = Path("notes")
 SKILLS_FILES_PATH = Path("skills")
 
-DEFAULT_NOTEBOOK_FILE_NAME = "notebook"
+DEFAULT_MARIMO_NOTEBOOK_FILE_NAME = "notebook"
+DEFAULT_MARIMO_NOTEBOOK_PORT = "8080"
 
 
 PkgManager = Literal["poetry", "uv", "pip", "conda"]

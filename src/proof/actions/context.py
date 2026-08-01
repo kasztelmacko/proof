@@ -12,3 +12,4 @@ class AnalysisContext:
 @dataclass
 class SessionContext:
     notebook_name: str
+    notebook_port: str
