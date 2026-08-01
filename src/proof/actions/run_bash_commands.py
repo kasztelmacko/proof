@@ -35,6 +35,8 @@ class RunBashCommands():
         env = os.environ.copy()
         env.update(dotenv_values(root / ".env"))
 
+        initial_prompt = f"/marimo-pair pair with me on {notebook_name}"
+
         subprocess.Popen(
             [pkg_manager, *MARIMO_NOTEBOOK_EDIT_BASH, notebook_name],
             cwd=root,
@@ -44,8 +46,8 @@ class RunBashCommands():
             stderr=subprocess.DEVNULL,
         )
         subprocess.run(
-            [shutil.which("pi")],
+            [shutil.which("pi"), initial_prompt],
             cwd=root,
             env=env,
-            check=True
+            check=True,
         )
