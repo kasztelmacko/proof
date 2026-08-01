@@ -4,6 +4,7 @@ from proof.config import (
     CLAUDE_STARTUP_MODEL,
     CLAUDE_STARTUP_EFFORT
 )
+from proof.errors import ToolNotFoundException
 import subprocess
 import shutil
 import os
@@ -19,17 +20,23 @@ class RunBashCommands():
         self.session_context = session_context
 
     def create(self) -> None:
-        if shutil.which("claude") is not None:
-            return
-        
-        script = subprocess.check_output(
-            ["curl", "-fsSL", "https://claude.ai/install.sh"]
-        )
-        subprocess.run(
-            ["bash"],
-            input=script,
-            check=True,
-        )
+        if shutil.which("curl") is None:
+            raise ToolNotFoundException(
+                "curl",
+                "Install curl: https://curl.se/download.html"
+            )
+
+        if shutil.which("jq") is None:
+            raise ToolNotFoundException(
+                "jq",
+                "Install jq: https://jqlang.org/download/",
+            )
+
+        if shutil.which("claude") is None:
+            raise ToolNotFoundException(
+                "claude",
+                "Install Claude Code: https://code.claude.com/docs/en/",
+            )
 
     def start(self) -> None:
         root = self.analysis_context.analysis_root
