@@ -2,7 +2,7 @@ from proof.config import (
     PROOF_COPY_FILES_PATH,
     PROOF_ENV_FILE_NAME,
     SKILLS_FILES_PATH,
-    PI_AGENT_FILES_PATH
+    CLAUDE_AGENT_FILES_PATH
 )
 from proof.actions import AnalysisContext
 
@@ -25,5 +25,5 @@ class CopyFiles:
             shutil.copyfile(src, root / ".env")
 
         with as_file(skills_copy_files) as src:
-            shutil.copytree(src, root / PI_AGENT_FILES_PATH / SKILLS_FILES_PATH, dirs_exist_ok=True)
+            shutil.copytree(src, root / CLAUDE_AGENT_FILES_PATH / SKILLS_FILES_PATH, dirs_exist_ok=True)
 

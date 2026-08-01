@@ -2,7 +2,7 @@ from proof.actions.context import AnalysisContext
 from proof.config import (
     CONTEXT_FILE_PATH,
     NOTES_FILE_PATH,
-    PI_AGENT_FILES_PATH,
+    CLAUDE_AGENT_FILES_PATH,
     SKILLS_FILES_PATH
 )
 
@@ -15,4 +15,4 @@ class MakeDirectories():
         root.mkdir()
         (root / NOTES_FILE_PATH).mkdir(parents=True)
         (root / CONTEXT_FILE_PATH).mkdir(parents=True)
-        (root / PI_AGENT_FILES_PATH / SKILLS_FILES_PATH).mkdir(parents=True)
+        (root / CLAUDE_AGENT_FILES_PATH / SKILLS_FILES_PATH).mkdir(parents=True)

@@ -5,7 +5,7 @@ PROOF_CONFIG_FILE_NAME = "proof.toml"
 PROOF_ENV_FILE_NAME = ".env.example"
 PROOF_COPY_FILES_PATH = "copy_files"
 
-PI_AGENT_FILES_PATH = Path(".pi") / "agent" 
+CLAUDE_AGENT_FILES_PATH = Path(".claude") 
 
 CONTEXT_FILE_PATH = Path("context")
 NOTES_FILE_PATH = Path("notes")

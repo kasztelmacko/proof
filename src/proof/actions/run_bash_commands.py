@@ -15,14 +15,14 @@ class RunBashCommands():
         self.session_context = session_context
 
     def create(self) -> None:
-        if shutil.which("pi") is not None:
+        if shutil.which("claude") is not None:
             return
         
         script = subprocess.check_output(
-            ["curl", "-fsSL", "https://pi.dev/install.sh"]
+            ["curl", "-fsSL", "https://claude.ai/install.sh"]
         )
         subprocess.run(
-            ["sh"],
+            ["bash"],
             input=script,
             check=True,
         )
@@ -46,7 +46,7 @@ class RunBashCommands():
             stderr=subprocess.DEVNULL,
         )
         subprocess.run(
-            [shutil.which("pi"), initial_prompt],
+            [shutil.which("claude"), initial_prompt],
             cwd=root,
             env=env,
             check=True,
