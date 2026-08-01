@@ -1,10 +1,13 @@
 from proof.config import (
-    PROOF_TEMPLATE_ENV_FILE_NAME
+    PROOF_COPY_FILES_PATH,
+    PROOF_ENV_FILE_NAME,
+    SKILLS_FILES_PATH,
+    PI_AGENT_FILES_PATH
 )
 from proof.actions import AnalysisContext
 
 from importlib.resources import as_file, files
-from shutil import copyfile
+import shutil
 
 
 class CopyFiles:
@@ -13,8 +16,14 @@ class CopyFiles:
 
     def create(self) -> None:
         root = self.analysis_context.analysis_root
+        copy_files_root = files("proof").joinpath(PROOF_COPY_FILES_PATH)
 
-        template_auth = files("proof.templates").joinpath(PROOF_TEMPLATE_ENV_FILE_NAME)
+        env_copy_file = copy_files_root.joinpath(PROOF_ENV_FILE_NAME)
+        skills_copy_files = copy_files_root.joinpath(SKILLS_FILES_PATH)
 
-        with as_file(template_auth) as src:
-            copyfile(src, root / ".env")
+        with as_file(env_copy_file) as src:
+            shutil.copyfile(src, root / ".env")
+
+        with as_file(skills_copy_files) as src:
+            shutil.copytree(src, root / PI_AGENT_FILES_PATH / SKILLS_FILES_PATH, dirs_exist_ok=True)
+

@@ -2,11 +2,14 @@ from typing import Literal
 from pathlib import Path
 
 PROOF_CONFIG_FILE_NAME = "proof.toml"
-PROOF_TEMPLATES_PATH = "templates"
-PROOF_TEMPLATE_ENV_FILE_NAME = ".env.example"
+PROOF_ENV_FILE_NAME = ".env.example"
+PROOF_COPY_FILES_PATH = "copy_files"
+
+PI_AGENT_FILES_PATH = Path(".pi") / "agent" 
 
 CONTEXT_FILE_PATH = Path("context")
 NOTES_FILE_PATH = Path("notes")
+SKILLS_FILES_PATH = Path("skills")
 
 DEFAULT_NOTEBOOK_FILE_NAME = "notebook"
 
