@@ -5,6 +5,7 @@ from .copy_files import CopyFiles
 from .install_dependencies import InstallDependencies
 from .write_to_files import WriteToFiles
 from .run_bash_commands import RunBashCommands
+from .symlink_files import SymlinkFiles
 
 __all__ = [
     "AnalysisContext",
@@ -14,5 +15,6 @@ __all__ = [
     "MakeDirectories",
     "InstallDependencies",
     "WriteToFiles",
-    "RunBashCommands"
+    "RunBashCommands",
+    "SymlinkFiles"
 ]

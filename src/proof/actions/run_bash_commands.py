@@ -40,20 +40,20 @@ class RunBashCommands():
             )
 
     def start(self) -> None:
-        root = self.analysis_context.analysis_root
+        analysis_root = self.analysis_context.analysis_root
         pkg_manager = self.analysis_context.pkg_manager
         notebook_name = self.session_context.notebook_name
         notebook_port = self.session_context.notebook_port
 
         env = os.environ.copy()
-        env.update(dotenv_values(root / ".env"))
+        env.update(dotenv_values(analysis_root / ".env"))
 
         health_url = f"http://127.0.0.1:{notebook_port}/health"
         initial_prompt = f"/marimo-pair pair with me on {notebook_name} on port {notebook_port}"
 
         subprocess.Popen(
             [pkg_manager, *MARIMO_NOTEBOOK_EDIT_BASH, notebook_name, "--port" , notebook_port],
-            cwd=root,
+            cwd=analysis_root,
             env=env,
             start_new_session=True,
             stdout=subprocess.DEVNULL,
@@ -82,7 +82,7 @@ class RunBashCommands():
                 "--effort",  CLAUDE_STARTUP_EFFORT,
                 initial_prompt
             ],
-            cwd=root,
+            cwd=analysis_root,
             env=env,
             check=True,
         )

@@ -1,6 +1,7 @@
 from collections.abc import Callable
 from pathlib import Path
 import sys
+import os
 import typer
 
 from proof.errors import CLI_ERRORS
@@ -8,7 +9,7 @@ from proof.config import (
     PkgManager,
     PACKAGE_MANAGER_INDICATORS
 )
-from pathlib import Path
+
 
 def run_command(action: Callable[[], None]) -> None:
     try:
@@ -26,3 +27,9 @@ def detect_pkg_manager(project_root: Path) -> PkgManager:
     for indicator_tuple, pkg_manager in PACKAGE_MANAGER_INDICATORS.items():
         if any((project_root / indicator).exists() for indicator in indicator_tuple):
             return pkg_manager
+
+
+def symlink(source: Path, destination: Path):
+    source = source.resolve()
+
+    os.symlink(source, destination, target_is_directory=source.is_dir())
