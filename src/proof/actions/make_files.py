@@ -1,6 +1,5 @@
 from proof.actions.context import AnalysisContext
-from proof.config import (
-    PROOF_CONFIG_FILE_NAME, 
+from proof.config import ( 
     DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, 
 )
 
@@ -13,4 +12,3 @@ class MakeFiles():
         root = self.analysis_context.analysis_root
         notebook_file = notebook_name + ".py"
         (root / notebook_file).touch()
-        (root / PROOF_CONFIG_FILE_NAME).touch()

@@ -4,6 +4,7 @@ from pathlib import Path
 PROOF_CONFIG_FILE_NAME = "proof.toml"
 PROOF_ENV_FILE_NAME = ".env.example"
 PROOF_COPY_FILES_PATH = "copy_files"
+PROOF_FILE_PATH = ".proof"
 
 CLAUDE_AGENT_FILES_PATH = Path(".claude")
 CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
