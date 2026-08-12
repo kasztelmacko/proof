@@ -4,10 +4,11 @@ from proof.config import (
     CLAUDE_STARTUP_MODEL,
     CLAUDE_STARTUP_EFFORT
 )
-from proof.errors import ToolNotFoundException
+from proof.errors import ToolNotFoundException, MarimoNotebookStartupTimeout
 import subprocess
 import shutil
 import os
+import time
 from dotenv import dotenv_values
 
 class RunBashCommands():
@@ -22,20 +23,20 @@ class RunBashCommands():
     def create(self) -> None:
         if shutil.which("curl") is None:
             raise ToolNotFoundException(
-                "curl",
-                "Install curl: https://curl.se/download.html"
+                tool_name="curl",
+                install_hint="Install curl: https://curl.se/download.html"
             )
 
         if shutil.which("jq") is None:
             raise ToolNotFoundException(
-                "jq",
-                "Install jq: https://jqlang.org/download/",
+                tool_name="jq",
+                install_hint="Install jq: https://jqlang.org/download/",
             )
 
         if shutil.which("claude") is None:
             raise ToolNotFoundException(
-                "claude",
-                "Install Claude Code: https://code.claude.com/docs/en/",
+                tool_name="claude",
+                install_hint="Install Claude Code: https://code.claude.com/docs/en/",
             )
 
     def start(self) -> None:
@@ -47,6 +48,7 @@ class RunBashCommands():
         env = os.environ.copy()
         env.update(dotenv_values(root / ".env"))
 
+        health_url = f"http://127.0.0.1:{notebook_port}/health"
         initial_prompt = f"/marimo-pair pair with me on {notebook_name} on port {notebook_port}"
 
         subprocess.Popen(
@@ -57,6 +59,22 @@ class RunBashCommands():
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
+
+        while time.monotonic() < time.monotonic() + 60:
+            notebook_server_health = subprocess.run(
+                ["curl", "-sf", "--connect-timeout", "1", "--max-time", "2", health_url],
+                capture_output=True,
+                text=True
+            )
+            if notebook_server_health.returncode == 0 and '"healthy"' in notebook_server_health.stdout:
+                break
+        else:
+            raise MarimoNotebookStartupTimeout(
+                notebook_name=notebook_name,
+                notebook_port=notebook_port,
+            )
+
+
         subprocess.run(
             [
                 shutil.which("claude"), 
