@@ -10,6 +10,7 @@ PROOF_PROJECT_CONTEXT_FILE_NAME = "project_context.md"
 CLAUDE_AGENT_FILES_PATH = Path(".claude")
 CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
 CLAUDE_STARTUP_EFFORT = "medium"
+CLAUDE_SETTINGS_FILE_NAME = "settings.json"
 
 CONTEXT_FILE_PATH = Path("context")
 NOTES_FILE_PATH = Path("notes")
