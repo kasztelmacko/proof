@@ -1,8 +1,11 @@
 from proof.actions.context import AnalysisContext
 from proof.config import ( 
-    DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, 
     PROOF_FILE_PATH,
-    PROOF_PROJECT_CONTEXT_FILE_NAME
+    PROOF_PROJECT_CONTEXT_FILE_NAME,
+    DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, 
+    CONTEXT_FILE_PATH,
+    ANALYSIS_PLAN_FILE_NAME,
+    ANALYSIS_OVERVIEW_FILE_NAME
 )
 
 
@@ -17,3 +20,5 @@ class MakeFiles():
 
         (project_root / PROOF_FILE_PATH / PROOF_PROJECT_CONTEXT_FILE_NAME).touch()
         (analysis_root / notebook_file).touch()
+        (analysis_root / CONTEXT_FILE_PATH / ANALYSIS_PLAN_FILE_NAME).touch()
+        (analysis_root / CONTEXT_FILE_PATH / ANALYSIS_OVERVIEW_FILE_NAME).touch()

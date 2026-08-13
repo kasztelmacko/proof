@@ -1,7 +1,7 @@
 from proof.config import (
     PROOF_FILE_PATH,
     PROOF_PROJECT_CONTEXT_FILE_NAME,
-    CONTEXT_FILE_PATH
+    CLAUDE_AGENT_FILES_PATH
 
 )
 from proof.actions import AnalysisContext
@@ -20,7 +20,7 @@ class SymlinkFiles:
 
         symlink(
             source=(project_root / PROOF_FILE_PATH / PROOF_PROJECT_CONTEXT_FILE_NAME),
-            destination=(analysis_root / CONTEXT_FILE_PATH / PROOF_PROJECT_CONTEXT_FILE_NAME)
+            destination=(analysis_root / CLAUDE_AGENT_FILES_PATH / PROOF_PROJECT_CONTEXT_FILE_NAME)
         )
 
 

@@ -18,6 +18,8 @@
       "Bash(bash **/scripts/execute-code.sh *)",
       "Bash(bash scripts/discover-servers.sh *)",
       "Bash(bash scripts/execute-code.sh *)",
+      "Bash(bash *discover-servers.sh)",
+      "Bash(bash *execute-code.sh)",
       "Read"
     ],
     "deny": [
