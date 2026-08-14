@@ -3,7 +3,7 @@ name = "proof"
 version = "0.1.0"
 description = "Proof is a model agnostic data analysis framework for Python."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = [
     "dotenv>=0.9.9",
     "typer>=0.27.0",
