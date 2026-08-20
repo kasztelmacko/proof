@@ -52,3 +52,31 @@ def start_session(analysis_name: str, notebook_name: str, notebook_port: str = D
     )
 
     RunBashCommands(analysis_context, session_context).start()
+
+
+def add_notebook(analysis_name: str, notebook_name: str) -> None:
+    project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
+    pkg_manager = detect_pkg_manager(project_root=project_root)
+
+    analysis_context = AnalysisContext(
+        analysis_name=analysis_name,
+        project_root=project_root,
+        analysis_root=analysis_root,
+        pkg_manager=pkg_manager
+    )
+
+    MakeFiles(analysis_context).add(notebook_name=notebook_name)
+
+
+def add_symlink(analysis_name: str, path: str) -> None:
+    project_root, analysis_root = get_project_and_analysis_root(analysis_name=analysis_name)
+    pkg_manager = detect_pkg_manager(project_root=project_root)
+
+    analysis_context = AnalysisContext(
+        analysis_name=analysis_name,
+        project_root=project_root,
+        analysis_root=analysis_root,
+        pkg_manager=pkg_manager
+    )
+
+    SymlinkFiles(analysis_context).add(path=path)

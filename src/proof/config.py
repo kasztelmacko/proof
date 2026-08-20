@@ -12,15 +12,15 @@ CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
 CLAUDE_STARTUP_EFFORT = "medium"
 CLAUDE_SETTINGS_FILE_NAME = "settings.json"
 
-CONTEXT_FILE_PATH = Path("analysis_context")
-NOTES_FILE_PATH = Path("notes")
-SKILLS_FILES_PATH = Path("skills")
-
+ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
+ANALYSIS_NOTES_FILE_PATH = Path("notes")
+ANALYSIS_SKILLS_FILES_PATH = Path("skills")
 ANALYSIS_PLAN_FILE_NAME = "analysis_plan.md"
 ANALYSIS_OVERVIEW_FILE_NAME = "analysis_overview.md"
 
 DEFAULT_MARIMO_NOTEBOOK_FILE_NAME = "notebook"
 DEFAULT_MARIMO_NOTEBOOK_PORT = "8080"
+MARIMO_NOTEBOOK_FILE_EXTENSION = ".py"
 
 
 PkgManager = Literal["poetry", "uv", "pip", "conda"]

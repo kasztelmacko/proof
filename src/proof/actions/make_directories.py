@@ -1,9 +1,9 @@
 from proof.actions.context import AnalysisContext
 from proof.config import (
-    CONTEXT_FILE_PATH,
-    NOTES_FILE_PATH,
+    ANALYSIS_CONTEXT_FILE_PATH,
+    ANALYSIS_NOTES_FILE_PATH,
     CLAUDE_AGENT_FILES_PATH,
-    SKILLS_FILES_PATH,
+    ANALYSIS_SKILLS_FILES_PATH,
     PROOF_FILE_PATH
 )
 
@@ -23,6 +23,6 @@ class MakeDirectories():
 
         (project_root / analysis_name).mkdir(parents=True)
 
-        (analysis_root / NOTES_FILE_PATH).mkdir(parents=True)
-        (analysis_root / CONTEXT_FILE_PATH).mkdir(parents=True)
-        (analysis_root / CLAUDE_AGENT_FILES_PATH / SKILLS_FILES_PATH).mkdir(parents=True)
+        (analysis_root / ANALYSIS_NOTES_FILE_PATH).mkdir(parents=True)
+        (analysis_root / ANALYSIS_CONTEXT_FILE_PATH).mkdir(parents=True)
+        (analysis_root / CLAUDE_AGENT_FILES_PATH / ANALYSIS_SKILLS_FILES_PATH).mkdir(parents=True)

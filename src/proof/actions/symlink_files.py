@@ -1,6 +1,7 @@
 from proof.config import (
     PROOF_FILE_PATH,
     PROOF_PROJECT_CONTEXT_FILE_NAME,
+    ANALYSIS_CONTEXT_FILE_PATH,
     CLAUDE_AGENT_FILES_PATH
 
 )
@@ -23,5 +24,15 @@ class SymlinkFiles:
             destination=(analysis_root / CLAUDE_AGENT_FILES_PATH / PROOF_PROJECT_CONTEXT_FILE_NAME)
         )
 
+    def add(self, path: str) -> None:
+        project_root = self.analysis_context.project_root
+        analysis_root = self.analysis_context.analysis_root
+        analysis_name = self.analysis_context.analysis_name
+        source = project_root / path
+
+        symlink(
+            source=source,
+            destination=(analysis_root / ANALYSIS_CONTEXT_FILE_PATH / source.name),
+        )
 
 
