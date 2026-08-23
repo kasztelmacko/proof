@@ -6,6 +6,7 @@ from .install_dependencies import InstallDependencies
 from .write_to_files import WriteToFiles
 from .run_bash_commands import RunBashCommands
 from .symlink_files import SymlinkFiles
+from .print_to_console import PrintToConsole
 
 __all__ = [
     "AnalysisContext",
@@ -16,5 +17,6 @@ __all__ = [
     "InstallDependencies",
     "WriteToFiles",
     "RunBashCommands",
-    "SymlinkFiles"
+    "SymlinkFiles",
+    "PrintToConsole",
 ]

@@ -11,7 +11,8 @@ from proof.actions import (
     InstallDependencies,
     WriteToFiles,
     RunBashCommands,
-    SymlinkFiles
+    SymlinkFiles,
+    PrintToConsole
 )
 from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
 
@@ -33,6 +34,7 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTE
     InstallDependencies(analysis_context).create()
     WriteToFiles(analysis_context).create()
     SymlinkFiles(analysis_context).create()
+    PrintToConsole(analysis_context).create()
 
 
 def start_session(analysis_name: str, notebook_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
