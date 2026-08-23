@@ -12,8 +12,7 @@ CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
 CLAUDE_STARTUP_EFFORT = "medium"
 
 ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
-ANALYSIS_NOTES_FILE_PATH = Path("notes")
-ANALYSIS_SKILLS_FILES_PATH = Path("skills")
+ANALYSIS_NOTES_FILE_PATH = Path("analysis_notes")
 ANALYSIS_PLAN_FILE_NAME = "analysis_plan.md"
 ANALYSIS_OVERVIEW_FILE_NAME = "analysis_overview.md"
 

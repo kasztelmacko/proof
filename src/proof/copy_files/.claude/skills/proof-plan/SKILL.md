@@ -1,6 +1,6 @@
 ---
 name: proof-plan
-description: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.
+description: A relentless interview to sharpen a plan or design, which also creates docs and glossary as we go.
 disable-model-invocation: true
 ---
 
