@@ -1,5 +1,3 @@
-# OBEY Clean Code
-
 This file defines mandatory working rules for agent. Follow these instructions before making any code, refactor, review, or documentation change.
 
 ## Priority and behavior
