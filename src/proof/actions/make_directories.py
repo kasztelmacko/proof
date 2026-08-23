@@ -25,4 +25,3 @@ class MakeDirectories():
 
         (analysis_root / ANALYSIS_NOTES_FILE_PATH).mkdir(parents=True)
         (analysis_root / ANALYSIS_CONTEXT_FILE_PATH).mkdir(parents=True)
-        (analysis_root / CLAUDE_AGENT_FILES_PATH / ANALYSIS_SKILLS_FILES_PATH).mkdir(parents=True)
