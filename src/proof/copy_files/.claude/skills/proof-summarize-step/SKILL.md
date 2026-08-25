@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 Append one completed analysis-plan step to `analysis_context/analysis_overview.md`.
 
-Sources, in this order: the named step in `analysis_context/analysis_plan.md`, then the human's files under `analysis_notes/`. Notebook output is only a fact already on screen — do not interpret it.
+Sources, in this order: the named step in `analysis_context/analysis_plan.md`, then the human's files under `analysis_notes/`. Notebook output is only a fact already on screen — use it as source of truth alongside user notes, and conversation outputs.
 
 If notes for this step are missing, ask the human to write them; write no files yet.
 If which step is unclear, ask; then write.
