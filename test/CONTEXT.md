@@ -1,0 +1,1 @@
+C:/Users/kaszt/OneDrive/Dokumenty/atea/.proof/CONTEXT.md
