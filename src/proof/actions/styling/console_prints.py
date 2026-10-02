@@ -20,6 +20,7 @@ def print_commands_table(console: Console) -> None:
     console.print("")
     table.add_column("Command", style="dim", min_width=PROOF_HELPER_FIRST_COL_WIDTH, no_wrap=True)
     table.add_column("Description")
+    table.add_row("proof init", "Create proof root folder")
     table.add_row("proof create [cyan]<analysis_name>[/cyan]", "Create a new analysis")
     table.add_row("proof start [cyan]<analysis_name> <notebook_name>[/cyan]", "Start a marimo notebook session")
     table.add_row("proof add notebook [cyan]<analysis_name> <notebook_name>[/cyan]", "Add a notebook to an analysis")
@@ -36,11 +37,18 @@ def print_skills_table(console: Console) -> None:
     table.add_row("/proof-help-analyze", "Analyze step or deepen user understanding")
     console.print(table)
 
+def print_create_success(console: Console, analysis_name: str) -> None:
+    console.print(
+        f"Successfully created analysis: [cyan]{analysis_name}[/cyan]. "
+        "To start planning it use [cyan]`/proof-plan`[/cyan] in your coding agent"
+    )
+
+
 def print_user_tip(console: Console) -> None:
     console.print("")
     console.print(
         Panel(
-            "Remember to fill project context in [cyan].proof/CLAUDE.md[/cyan].  "
+            "Remember to fill project context in [cyan].proof/CONTEXT.md[/cyan].  "
             "It is the primary source of truth about the project scope and its innerworkings",
         )
     )
