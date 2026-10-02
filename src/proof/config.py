@@ -35,3 +35,4 @@ PACKAGE_MANAGER_INDICATORS = {
 REQUIRED_DEPENDENCIES = ("marimo>=0.23.15",)
 
 MARIMO_NOTEBOOK_EDIT_BASH = ["run", "marimo", "edit", "--watch"]
+MARIMO_NOTEBOOK_TOKEN = "marimo-notebook-token"
