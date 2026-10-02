@@ -2,12 +2,22 @@ import typer
 from typing import Annotated
 
 from proof.utils import run_command
-from proof.commands import create_analysis, start_session, add_notebook, add_symlink
+from proof.commands import (
+    init_proof, 
+    create_analysis, 
+    start_session, 
+    add_notebook, 
+    add_symlink
+)
 from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 add_app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 app.add_typer(add_app, name="add")
+
+@app.command()
+def init() -> None:
+    run_command(lambda: init_proof())
 
 @app.command()
 def create(

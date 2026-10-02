@@ -3,14 +3,15 @@ from proof.config import (
     PROOF_ENV_FILE_NAME,
     CLAUDE_AGENT_FILES_PATH,
 )
-from proof.actions import AnalysisContext
+from proof.actions import ProjectContext, AnalysisContext
 
 from importlib.resources import as_file, files
 import shutil
 
 
 class CopyFiles:
-    def __init__(self, analysis_context: AnalysisContext):
+    def __init__(self, project_context: ProjectContext, analysis_context: AnalysisContext):
+        self.project_context = project_context
         self.analysis_context = analysis_context
 
     def create(self) -> None:

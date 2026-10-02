@@ -1,4 +1,4 @@
-from proof.actions import AnalysisContext, SessionContext
+from proof.actions import ProjectContext, AnalysisContext, SessionContext
 from proof.config import (
     MARIMO_NOTEBOOK_EDIT_BASH,
     CLAUDE_STARTUP_MODEL,
@@ -13,14 +13,16 @@ from dotenv import dotenv_values
 
 class RunBashCommands():
     def __init__(
-        self, 
-        analysis_context: AnalysisContext, 
-        session_context: SessionContext | None = None 
+        self,
+        project_context: ProjectContext,
+        analysis_context: AnalysisContext | None = None,
+        session_context: SessionContext | None = None,
     ):
+        self.project_context = project_context
         self.analysis_context = analysis_context
         self.session_context = session_context
 
-    def create(self) -> None:
+    def init(self) -> None:
         if shutil.which("curl") is None:
             raise ToolNotFoundException(
                 tool_name="curl",
@@ -41,7 +43,7 @@ class RunBashCommands():
 
     def start(self) -> None:
         analysis_root = self.analysis_context.analysis_root
-        pkg_manager = self.analysis_context.pkg_manager
+        pkg_manager = self.project_context.pkg_manager
         notebook_name = self.session_context.notebook_name
         notebook_port = self.session_context.notebook_port
 

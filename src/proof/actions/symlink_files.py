@@ -5,18 +5,19 @@ from proof.config import (
     CLAUDE_AGENT_FILES_PATH
 
 )
-from proof.actions import AnalysisContext
+from proof.actions import ProjectContext, AnalysisContext
 from proof.utils import symlink
 
 import os
 
 
 class SymlinkFiles:
-    def __init__(self, analysis_context: AnalysisContext):
+    def __init__(self, project_context: ProjectContext, analysis_context: AnalysisContext):
+        self.project_context = project_context
         self.analysis_context = analysis_context
 
     def create(self) -> None:
-        project_root = self.analysis_context.project_root
+        project_root = self.project_context.project_root
         analysis_root = self.analysis_context.analysis_root
 
         symlink(
@@ -25,7 +26,7 @@ class SymlinkFiles:
         )
 
     def add(self, path: str) -> None:
-        project_root = self.analysis_context.project_root
+        project_root = self.project_context.project_root
         analysis_root = self.analysis_context.analysis_root
         analysis_name = self.analysis_context.analysis_name
         source = project_root / path
