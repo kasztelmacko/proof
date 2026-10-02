@@ -1,6 +1,6 @@
 ---
-name: proof-summarize-step
-description: Use when the human invokes /proof-summarize-step or /proof-summarise-step after they have inspected notebook output and written notes for the current analysis_plan step.
+name: proof-summarize
+description: Use when the human invokes /proof-summarize or /proof-summarise after they have inspected notebook output and written notes for the current analysis_plan step.
 disable-model-invocation: true
 ---
 

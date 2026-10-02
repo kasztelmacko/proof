@@ -1,6 +1,6 @@
 ---
-name: proof-help-analyze
-description: Use when the human invokes /proof-help-analyze with a named analysis_plan step, to deepen their thinking on that section before they write notes.
+name: proof-understand
+description: Use when the human invokes /proof-understand with a named analysis_plan step, to deepen their thinking on that section before they write notes.
 disable-model-invocation: true
 ---
 
