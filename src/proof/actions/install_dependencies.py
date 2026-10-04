@@ -15,29 +15,15 @@ class InstallDependencies():
         pkg_manager = self.project_context.pkg_manager
         project_root = self.project_context.project_root
 
-        if pkg_manager == "poetry":
-            subprocess.run(
-                ["poetry", "add", *REQUIRED_DEPENDENCIES],
-                cwd=project_root,
-                check=True,
-            )
-        elif pkg_manager == "uv":
-            subprocess.run(
-                ["uv", "pip", "install", *REQUIRED_DEPENDENCIES],
-                cwd=project_root,
-                check=True,
-            )
-        elif pkg_manager == "pip":
-            subprocess.run(
-                ["pip", "install", *REQUIRED_DEPENDENCIES],
-                cwd=project_root,
-                check=True,
-            )
-        elif pkg_manager == "conda":
-            subprocess.run(
-                ["conda", "install", *REQUIRED_DEPENDENCIES],
-                cwd=project_root,
-                check=True,
-            )
-        else:
-            raise ValueError(f"Invalid package manager: {pkg_manager}")
+        INSTALL_COMMANDS = {
+            "poetry": ["poetry", "add"],
+            "uv": ["uv", "pip", "install"],
+            "pip": ["pip", "install"],
+            "conda": ["conda", "install", "-y"],
+        }
+
+        subprocess.run(
+            [*INSTALL_COMMANDS[pkg_manager], *REQUIRED_DEPENDENCIES],
+            cwd=project_root,
+            check=True,
+        )
