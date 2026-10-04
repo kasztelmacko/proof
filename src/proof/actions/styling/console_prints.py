@@ -33,8 +33,8 @@ def print_skills_table(console: Console) -> None:
     table.add_column("Skill", style="dim", min_width=PROOF_HELPER_FIRST_COL_WIDTH, no_wrap=True)
     table.add_column("Description")
     table.add_row("/proof-plan", "Plan analysis based on user provided context")
-    table.add_row("/proof-summarize-step", "Write the summary of currently analyzed step to `analysis_overview.md`")
-    table.add_row("/proof-help-analyze", "Analyze step or deepen user understanding")
+    table.add_row("/proof-summarize", "Write the summary of currently analyzed step to `analysis_overview.md`")
+    table.add_row("/proof-understand", "Analyze step or deepen user understanding")
     console.print(table)
 
 def print_create_success(console: Console, analysis_name: str) -> None:
