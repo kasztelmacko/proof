@@ -1,8 +1,8 @@
 from collections.abc import Callable
 from pathlib import Path
-import sys
 import os
 import typer
+from rich.console import Console
 
 
 from proof.errors import CLI_ERRORS
@@ -10,7 +10,6 @@ from proof.config import (
     PkgManager,
     PACKAGE_MANAGER_INDICATORS,
     PROOF_FILE_PATH,
-    PROOF_HELPER_FIRST_COL_WIDTH,
     PROOF_PROJECT_CONTEXT_FILE_NAME
 )
 
@@ -19,7 +18,7 @@ def run_command(action: Callable[[], None]) -> None:
     try:
         action()
     except CLI_ERRORS as exc:
-        print(exc, file=sys.stderr)
+        Console(stderr=True).print(str(exc))
         raise typer.Exit(1) from None
 
 def get_project_root() -> Path:
