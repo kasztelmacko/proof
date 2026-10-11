@@ -17,7 +17,7 @@ class AnalysisNotFoundException(ProofError):
 class NotebookNotFoundException(ProofError):
     def __init__(self, notebook_name: str, analysis_name: str):
         super().__init__(
-            f"Notebook [cyan]{notebook_name}[/cyan] was not found in analysis [cyan]{analysis_name}[/cyan]"
+            f"Notebook [cyan]{notebook_name}[/cyan] was not found in analysis [cyan]{analysis_name}[/cyan]. Remember, that the notebook name is the name of the file in the analysis directory with the .py extension."
         )
 
 
