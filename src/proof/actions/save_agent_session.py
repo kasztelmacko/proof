@@ -1,8 +1,7 @@
 from proof.actions.context import ProjectContext, AnalysisContext, SessionContext
-from proof.errors import SessionNotFoundException
 from proof.actions.sessions.manage_session import (
-    sessions_file,
     read_session_names,
+    require_session_exists,
     write_session_names,
 )
 
@@ -27,11 +26,8 @@ class SaveAgentSession():
             write_session_names(analysis_root, names)
 
     def resume(self) -> None:
-        analysis_root = self.analysis_context.analysis_root
-        session_name = self.session_context.session_name
-        names = read_session_names(analysis_root)
-        if session_name not in names:
-            raise SessionNotFoundException(
-                session_name=session_name,
-                sessions_file=str(sessions_file(analysis_root)),
-            )
+        require_session_exists(
+            analysis_root=self.analysis_context.analysis_root,
+            analysis_name=self.analysis_context.analysis_name,
+            session_name=self.session_context.session_name,
+        )

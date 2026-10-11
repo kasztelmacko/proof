@@ -5,7 +5,7 @@ from proof.actions.sessions.start_session import (
     resume_agent_session,
 )
 from proof.config import MARIMO_NOTEBOOK_TOKEN
-from proof.errors import ToolNotFoundException
+from proof.exceptions import ToolNotFoundException
 import shutil
 import os
 from dotenv import dotenv_values
