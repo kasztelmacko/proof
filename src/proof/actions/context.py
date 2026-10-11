@@ -16,3 +16,4 @@ class AnalysisContext:
 class SessionContext:
     notebook_name: str
     notebook_port: str
+    session_name: str

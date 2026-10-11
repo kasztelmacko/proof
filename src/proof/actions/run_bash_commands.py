@@ -1,15 +1,13 @@
 from proof.actions import ProjectContext, AnalysisContext, SessionContext
-from proof.config import (
-    MARIMO_NOTEBOOK_EDIT_BASH,
-    MARIMO_NOTEBOOK_TOKEN,
-    CLAUDE_STARTUP_MODEL,
-    CLAUDE_STARTUP_EFFORT
+from proof.actions.sessions.start_session import (
+    start_notebook_session,
+    start_agent_session,
+    resume_agent_session,
 )
+from proof.config import MARIMO_NOTEBOOK_TOKEN
 from proof.errors import ToolNotFoundException
-import subprocess
 import shutil
 import os
-import time
 from dotenv import dotenv_values
 
 class RunBashCommands():
@@ -47,92 +45,52 @@ class RunBashCommands():
                 tool_name="claude",
                 install_hint="Install Claude Code: https://code.claude.com/docs/en/",
             )
-
+            
     def start(self) -> None:
         analysis_root = self.analysis_context.analysis_root
         pkg_manager = self.project_context.pkg_manager
         notebook_name = self.session_context.notebook_name
         notebook_port = self.session_context.notebook_port
-        notebook_url = f"http://localhost:{notebook_port}/"
 
         env = os.environ.copy()
         env.update(dotenv_values(analysis_root / ".env"))
         env["MARIMO_TOKEN"] = MARIMO_NOTEBOOK_TOKEN
 
-        subprocess.Popen(
-            [
-                pkg_manager,
-                *MARIMO_NOTEBOOK_EDIT_BASH,
-                notebook_name,
-                "--port",
-                notebook_port,
-                "--token-password",
-                MARIMO_NOTEBOOK_TOKEN,
-            ],
-            cwd=analysis_root,
+        start_notebook_session(
+            analysis_root=analysis_root,
+            pkg_manager=pkg_manager,
+            notebook_name=notebook_name,
+            notebook_port=notebook_port,
             env=env,
-            start_new_session=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+        )
+        start_agent_session(
+            analysis_root=analysis_root,
+            notebook_port=notebook_port,
+            env=env,
+            session_name=self.session_context.session_name,
         )
 
-        sessions_url = f"http://127.0.0.1:{notebook_port}/api/sessions"
-        while True:
-            sessions_response = subprocess.run(
-                [
-                    "curl",
-                    "-sf",
-                    "--connect-timeout",
-                    "1",
-                    "--max-time",
-                    "2",
-                    "-H",
-                    f"Authorization: Bearer {MARIMO_NOTEBOOK_TOKEN}",
-                    sessions_url,
-                ],
-                capture_output=True,
-                text=True,
-            )
-            if sessions_response.returncode == 0:
-                session_id = subprocess.run(
-                    ["jq", "-r", "keys[0] // empty"],
-                    input=sessions_response.stdout,
-                    capture_output=True,
-                    text=True,
-                ).stdout.strip()
-                if session_id:
-                    break
-            time.sleep(0.5)
+    def resume(self) -> None:
+        analysis_root = self.analysis_context.analysis_root
+        pkg_manager = self.project_context.pkg_manager
+        notebook_name = self.session_context.notebook_name
+        notebook_port = self.session_context.notebook_port
 
-        pair_prompt = subprocess.run(
-            [
-                shutil.which("uvx"),
-                "marimo@latest",
-                "pair",
-                "prompt",
-                "--url",
-                notebook_url,
-                "--session",
-                session_id,
-                "--with-token",
-                "--claude",
-            ],
-            cwd=analysis_root,
+        env = os.environ.copy()
+        env.update(dotenv_values(analysis_root / ".env"))
+        env["MARIMO_TOKEN"] = MARIMO_NOTEBOOK_TOKEN
+
+        start_notebook_session(
+            analysis_root=analysis_root,
+            pkg_manager=pkg_manager,
+            notebook_name=notebook_name,
+            notebook_port=notebook_port,
             env=env,
-            capture_output=True,
-            text=True,
-            input="\n",
-            check=True,
+        )
+        resume_agent_session(
+            analysis_root=analysis_root,
+            notebook_port=notebook_port,
+            env=env,
+            session_name=self.session_context.session_name,
         )
 
-        subprocess.run(
-            [
-                shutil.which("claude"),
-                "--model", CLAUDE_STARTUP_MODEL,
-                "--effort",  CLAUDE_STARTUP_EFFORT,
-                pair_prompt.stdout.strip(),
-            ],
-            cwd=analysis_root,
-            env=env,
-            check=True,
-        )

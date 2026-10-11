@@ -5,7 +5,8 @@ from proof.utils import run_command
 from proof.commands import (
     init_proof, 
     create_analysis, 
-    start_session, 
+    start_session,
+    resume_session,
     add_notebook, 
     add_symlink
 )
@@ -46,6 +47,10 @@ def start(
         str,
         typer.Argument(help="name of a notebook to run")
     ],
+    session_name: Annotated[
+        str,
+        typer.Argument(help="name of the agent session"),
+    ],
     notebook_port: Annotated[
         str,
         typer.Option(
@@ -55,7 +60,32 @@ def start(
         )
     ] = DEFAULT_MARIMO_NOTEBOOK_PORT
 ) -> None:
-    run_command(lambda: start_session(analysis_name=analysis_name, notebook_name=notebook_name, notebook_port=notebook_port))
+    run_command(lambda: start_session(analysis_name=analysis_name, notebook_name=notebook_name, session_name=session_name, notebook_port=notebook_port))
+
+@app.command()
+def resume(
+    analysis_name: Annotated[
+        str,
+        typer.Argument(help="Folder name of the analysis"),
+    ],
+    notebook_name: Annotated[
+        str,
+        typer.Argument(help="name of a notebook to run")
+    ],
+    session_name: Annotated[
+        str,
+        typer.Argument(help="name of the agent session to resume"),
+    ],
+    notebook_port: Annotated[
+        str,
+        typer.Option(
+            "--port",
+            "-p",
+            help="port on which to start marimo notebook server"
+        )
+    ] = DEFAULT_MARIMO_NOTEBOOK_PORT
+) -> None:
+    run_command(lambda: resume_session(analysis_name=analysis_name, notebook_name=notebook_name, session_name=session_name, notebook_port=notebook_port))
 
 
 @add_app.command("notebook")

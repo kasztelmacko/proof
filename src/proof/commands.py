@@ -13,6 +13,7 @@ from proof.actions import (
     InstallDependencies,
     WriteToFiles,
     RunBashCommands,
+    SaveAgentSession,
     SymlinkFiles,
     PrintToConsole
 )
@@ -56,7 +57,7 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTE
     PrintToConsole(project_context, analysis_context).create()
 
 
-def start_session(analysis_name: str, notebook_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
+def start_session(analysis_name: str, notebook_name: str, session_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
     project_root = get_project_root()
     analysis_root = get_analysis_root(project_root, analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
@@ -73,10 +74,36 @@ def start_session(analysis_name: str, notebook_name: str, notebook_port: str = D
 
     session_context = SessionContext(
         notebook_name=notebook_name,
-        notebook_port=notebook_port
+        notebook_port=notebook_port,
+        session_name=session_name,
     )
 
+    SaveAgentSession(project_context, analysis_context, session_context).start()
     RunBashCommands(project_context, analysis_context, session_context).start()
+
+def resume_session(analysis_name: str, notebook_name: str, session_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
+    project_root = get_project_root()
+    analysis_root = get_analysis_root(project_root, analysis_name)
+    pkg_manager = detect_pkg_manager(project_root=project_root)
+
+    project_context = ProjectContext(
+        project_root=project_root,
+        pkg_manager=pkg_manager
+    )
+
+    analysis_context = AnalysisContext(
+        analysis_name=analysis_name,
+        analysis_root=analysis_root,
+    )
+
+    session_context = SessionContext(
+        notebook_name=notebook_name,
+        notebook_port=notebook_port,
+        session_name=session_name,
+    )
+
+    SaveAgentSession(project_context, analysis_context, session_context).resume()
+    RunBashCommands(project_context, analysis_context, session_context).resume()
 
 
 def add_notebook(analysis_name: str, notebook_name: str) -> None:
