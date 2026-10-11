@@ -1,6 +1,7 @@
 from collections.abc import Callable
 from pathlib import Path
 import os
+import shutil
 import typer
 from rich.console import Console
 
@@ -60,7 +61,16 @@ def detect_pkg_manager(project_root: Path) -> PkgManager:
 def symlink(source: Path, destination: Path):
     source = source.resolve()
 
-    os.symlink(source, destination, target_is_directory=source.is_dir())
+    try:
+        os.symlink(source, destination, target_is_directory=source.is_dir())
+    except OSError:
+        if source.is_dir():
+            shutil.copytree(source, destination)
+            return
+        try:
+            os.link(source, destination)
+        except OSError:
+            shutil.copy2(source, destination)
 
 
 def project_context_is_empty(project_root: Path) -> bool:
