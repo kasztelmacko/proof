@@ -15,9 +15,9 @@ AGENT_NAMES = ("harness", "planner", "coder", "summarizer")
 EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 DEFAULT_AGENT_MODELS = {
     "harness": {"model": "claude-sonnet", "version": "4-6", "effort": "medium"},
-    "planner": {"model": "claude-opus", "version": "4-6", "effort": "high"},
-    "coder": {"model": "claude-sonnet", "version": "4-6", "effort": "medium"},
-    "summarizer": {"model": "claude-opus", "version": "4-6", "effort": "high"},
+    "planner": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
+    "coder": {"model": "claude-sonnet", "version": "4-8", "effort": "medium"},
+    "summarizer": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
 }
 
 ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
