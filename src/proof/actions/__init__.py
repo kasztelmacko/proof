@@ -8,6 +8,7 @@ from .run_bash_commands import RunBashCommands
 from .save_agent_session import SaveAgentSession
 from .symlink_files import SymlinkFiles
 from .print_to_console import PrintToConsole
+from .apply_agent_models import ApplyAgentModels
 
 __all__ = [
     "ProjectContext",
@@ -22,4 +23,5 @@ __all__ = [
     "SaveAgentSession",
     "SymlinkFiles",
     "PrintToConsole",
+    "ApplyAgentModels",
 ]

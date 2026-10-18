@@ -5,6 +5,7 @@ description: >-
   the user does, inspect live notebook state, and commit durable notebook
   changes. Use when the user wants to start a marimo notebook or pair on an
   active marimo session.
+user-invocable: false
 allowed-tools: Bash(bash **/scripts/discover-servers.sh *), Bash(bash **/scripts/execute-code.sh *), Read
 ---
 

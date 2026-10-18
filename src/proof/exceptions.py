@@ -28,6 +28,11 @@ class SessionNotFoundException(ProofError):
         )
 
 
+class AgentConfigException(ProofError):
+    def __init__(self, message: str):
+        super().__init__(message)
+
+
 class ToolNotFoundException(ProofError):
     def __init__(self, tool_name: str, install_hint: str | None = None):
         message = f"Required tool not found on PATH: [cyan]{tool_name}[/cyan]"
@@ -35,4 +40,4 @@ class ToolNotFoundException(ProofError):
             message = f"{message}\n{install_hint}"
         super().__init__(message)
 
-CLI_ERRORS = (ProofNotInitializedException, AnalysisNotFoundException, NotebookNotFoundException, SessionNotFoundException, ToolNotFoundException)
+CLI_ERRORS = (ProofNotInitializedException, AnalysisNotFoundException, NotebookNotFoundException, SessionNotFoundException, AgentConfigException, ToolNotFoundException)

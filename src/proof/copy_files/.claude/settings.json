@@ -1,4 +1,8 @@
 {
+  "agent": "harness",
+  "env": {
+    "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1"
+  },
   "enableAllProjectMcpServers": false,
   "enabledMcpjsonServers": [],
   "permissions": {
@@ -27,7 +31,10 @@
       "WebFetch",
       "WebSearch",
       "Bash(curl *)",
-      "Bash(wget *)"
+      "Bash(wget *)",
+      "Agent(Explore)",
+      "Agent(Plan)",
+      "Agent(general-purpose)"
     ],
     "defaultMode": "default"
   }

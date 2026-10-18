@@ -4,25 +4,4 @@ description: Use when the human invokes /proof-summarize or /proof-summarise aft
 disable-model-invocation: true
 ---
 
-Append one completed analysis-plan step to `analysis_context/analysis_overview.md`.
-
-Sources, in this order: the named step in `analysis_context/analysis_plan.md`, then the human's files under `analysis_notes/`. Notebook output is only a fact already on screen — use it as source of truth alongside user notes, and conversation outputs.
-
-If notes for this step are missing, ask the human to write them; write no files yet.
-If which step is unclear, ask; then write.
-
-## Entry
-
-Append this block. Leave every earlier heading untouched.
-
-```md
-### {Step name}
-
-**Question**: {from analysis_plan}
-
-**Summary**:
-- {what the cells did, one line}
-- {what the human concluded, from their notes}
-```
-
-This invoke is that entry. Other asks in the same message wait until after it is written. One invoke = one new `###` heading, for the current step only.
+Delegate this invoke to the summarizer agent in summarize mode. Pass the user's words through. Do not write the overview in this session.

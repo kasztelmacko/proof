@@ -1,6 +1,7 @@
 ---
 name: domain-modeling
 description: Use when discussing codebase terminology, editing CONTEXT.md, capturing analysis questions or hypotheses, or writing analysis_plan.md.
+user-invocable: false
 ---
 
 # Domain Modeling

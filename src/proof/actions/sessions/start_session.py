@@ -3,8 +3,6 @@ from uuid import NAMESPACE_URL, uuid5
 from proof.config import (
     MARIMO_NOTEBOOK_EDIT_BASH,
     MARIMO_NOTEBOOK_TOKEN,
-    CLAUDE_STARTUP_MODEL,
-    CLAUDE_STARTUP_EFFORT,
 )
 import subprocess
 import shutil
@@ -102,6 +100,8 @@ def start_agent_session(
     notebook_port: str,
     env: dict[str, str],
     session_name: str,
+    model: str,
+    effort: str,
 ) -> None:
     pair_prompt = pair_with_notebook(
         analysis_root=analysis_root,
@@ -112,8 +112,9 @@ def start_agent_session(
         [
             shutil.which("claude"),
             "--session-id", claude_session_id(session_name),
-            "--model", CLAUDE_STARTUP_MODEL,
-            "--effort", CLAUDE_STARTUP_EFFORT,
+            "--agent", "harness",
+            "--model", model,
+            "--effort", effort,
             pair_prompt,
         ],
         cwd=analysis_root,
@@ -127,6 +128,8 @@ def resume_agent_session(
     notebook_port: str,
     env: dict[str, str],
     session_name: str,
+    model: str,
+    effort: str,
 ) -> None:
     pair_prompt = pair_with_notebook(
         analysis_root=analysis_root,
@@ -137,8 +140,9 @@ def resume_agent_session(
         [
             shutil.which("claude"),
             "--resume", claude_session_id(session_name),
-            "--model", CLAUDE_STARTUP_MODEL,
-            "--effort", CLAUDE_STARTUP_EFFORT,
+            "--agent", "harness",
+            "--model", model,
+            "--effort", effort,
             pair_prompt,
         ],
         cwd=analysis_root,

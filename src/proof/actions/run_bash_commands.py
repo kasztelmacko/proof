@@ -1,4 +1,5 @@
 from proof.actions import ProjectContext, AnalysisContext, SessionContext
+from proof.actions.sessions.agent_models import load_agent_models
 from proof.actions.sessions.start_session import (
     start_notebook_session,
     start_agent_session,
@@ -63,11 +64,14 @@ class RunBashCommands():
             notebook_port=notebook_port,
             env=env,
         )
+        harness = load_agent_models(self.project_context.project_root)["harness"]
         start_agent_session(
             analysis_root=analysis_root,
             notebook_port=notebook_port,
             env=env,
             session_name=self.session_context.session_name,
+            model=harness.model_id,
+            effort=harness.effort,
         )
 
     def resume(self) -> None:
@@ -87,10 +91,13 @@ class RunBashCommands():
             notebook_port=notebook_port,
             env=env,
         )
+        harness = load_agent_models(self.project_context.project_root)["harness"]
         resume_agent_session(
             analysis_root=analysis_root,
             notebook_port=notebook_port,
             env=env,
             session_name=self.session_context.session_name,
+            model=harness.model_id,
+            effort=harness.effort,
         )
 

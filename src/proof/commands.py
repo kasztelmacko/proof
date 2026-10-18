@@ -19,7 +19,8 @@ from proof.actions import (
     RunBashCommands,
     SaveAgentSession,
     SymlinkFiles,
-    PrintToConsole
+    PrintToConsole,
+    ApplyAgentModels,
 )
 from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
 
@@ -87,6 +88,7 @@ def start_session(analysis_name: str, notebook_name: str, session_name: str, not
     )
 
     SaveAgentSession(project_context, analysis_context, session_context).start()
+    ApplyAgentModels(project_context, analysis_context).start()
     RunBashCommands(project_context, analysis_context, session_context).start()
 
 def resume_session(analysis_name: str, notebook_name: str, session_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
@@ -115,6 +117,7 @@ def resume_session(analysis_name: str, notebook_name: str, session_name: str, no
     )
 
     SaveAgentSession(project_context, analysis_context, session_context).resume()
+    ApplyAgentModels(project_context, analysis_context).resume()
     RunBashCommands(project_context, analysis_context, session_context).resume()
 
 
