@@ -1,16 +1,18 @@
+import shutil
+from importlib.resources import as_file, files
+
+from proof.actions import AnalysisContext, ProjectContext
 from proof.config import (
+    CLAUDE_AGENT_FILES_PATH,
     PROOF_COPY_FILES_PATH,
     PROOF_ENV_FILE_NAME,
-    CLAUDE_AGENT_FILES_PATH,
 )
-from proof.actions import ProjectContext, AnalysisContext
-
-from importlib.resources import as_file, files
-import shutil
 
 
 class CopyFiles:
-    def __init__(self, project_context: ProjectContext, analysis_context: AnalysisContext):
+    def __init__(
+        self, project_context: ProjectContext, analysis_context: AnalysisContext
+    ):
         self.project_context = project_context
         self.analysis_context = analysis_context
 
@@ -25,6 +27,6 @@ class CopyFiles:
             shutil.copyfile(src, analysis_root / ".env")
 
         with as_file(claude_agent_copy_files) as src:
-            shutil.copytree(src, analysis_root / CLAUDE_AGENT_FILES_PATH, dirs_exist_ok=True)
-
-
+            shutil.copytree(
+                src, analysis_root / CLAUDE_AGENT_FILES_PATH, dirs_exist_ok=True
+            )

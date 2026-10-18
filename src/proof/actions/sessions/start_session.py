@@ -1,12 +1,13 @@
+import shutil
+import subprocess
+import time
 from pathlib import Path
 from uuid import NAMESPACE_URL, uuid5
+
 from proof.config import (
     MARIMO_NOTEBOOK_EDIT_BASH,
     MARIMO_NOTEBOOK_TOKEN,
 )
-import subprocess
-import shutil
-import time
 
 
 def claude_session_id(session_name: str) -> str:
@@ -111,10 +112,14 @@ def start_agent_session(
     subprocess.run(
         [
             shutil.which("claude"),
-            "--session-id", claude_session_id(session_name),
-            "--agent", "harness",
-            "--model", model,
-            "--effort", effort,
+            "--session-id",
+            claude_session_id(session_name),
+            "--agent",
+            "harness",
+            "--model",
+            model,
+            "--effort",
+            effort,
             pair_prompt,
         ],
         cwd=analysis_root,
@@ -139,10 +144,14 @@ def resume_agent_session(
     subprocess.run(
         [
             shutil.which("claude"),
-            "--resume", claude_session_id(session_name),
-            "--agent", "harness",
-            "--model", model,
-            "--effort", effort,
+            "--resume",
+            claude_session_id(session_name),
+            "--agent",
+            "harness",
+            "--model",
+            model,
+            "--effort",
+            effort,
             pair_prompt,
         ],
         cwd=analysis_root,

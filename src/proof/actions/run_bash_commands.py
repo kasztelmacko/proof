@@ -1,17 +1,20 @@
-from proof.actions import ProjectContext, AnalysisContext, SessionContext
+import os
+import shutil
+
+from dotenv import dotenv_values
+
+from proof.actions import AnalysisContext, ProjectContext, SessionContext
 from proof.actions.sessions.agent_models import load_agent_models
 from proof.actions.sessions.start_session import (
-    start_notebook_session,
-    start_agent_session,
     resume_agent_session,
+    start_agent_session,
+    start_notebook_session,
 )
 from proof.config import MARIMO_NOTEBOOK_TOKEN
 from proof.exceptions import ToolNotFoundException
-import shutil
-import os
-from dotenv import dotenv_values
 
-class RunBashCommands():
+
+class RunBashCommands:
     def __init__(
         self,
         project_context: ProjectContext,
@@ -26,7 +29,7 @@ class RunBashCommands():
         if shutil.which("curl") is None:
             raise ToolNotFoundException(
                 tool_name="curl",
-                install_hint="Install curl: https://curl.se/download.html"
+                install_hint="Install curl: https://curl.se/download.html",
             )
 
         if shutil.which("jq") is None:
@@ -46,7 +49,7 @@ class RunBashCommands():
                 tool_name="claude",
                 install_hint="Install Claude Code: https://code.claude.com/docs/en/",
             )
-            
+
     def start(self) -> None:
         analysis_root = self.analysis_context.analysis_root
         pkg_manager = self.project_context.pkg_manager
@@ -100,4 +103,3 @@ class RunBashCommands():
             model=harness.model_id,
             effort=harness.effort,
         )
-

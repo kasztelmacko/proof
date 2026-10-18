@@ -1,22 +1,22 @@
-from proof.actions.context import ProjectContext, AnalysisContext
-from proof.config import ( 
+from proof.actions.context import AnalysisContext, ProjectContext
+from proof.config import (
+    ANALYSIS_CONTEXT_FILE_PATH,
+    ANALYSIS_NOTES_FILE_PATH,
+    ANALYSIS_NOTEST_FILE_NAME,
+    ANALYSIS_OVERVIEW_FILE_NAME,
+    ANALYSIS_PLAN_FILE_NAME,
+    DEFAULT_MARIMO_NOTEBOOK_FILE_NAME,
+    MARIMO_NOTEBOOK_FILE_EXTENSION,
     PROOF_FILE_PATH,
     PROOF_PROJECT_CONTEXT_FILE_NAME,
-    DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, 
-    ANALYSIS_CONTEXT_FILE_PATH,
-    ANALYSIS_PLAN_FILE_NAME,
-    ANALYSIS_OVERVIEW_FILE_NAME,
-    ANALYSIS_NOTES_FILE_PATH,
-    MARIMO_NOTEBOOK_FILE_EXTENSION,
-    ANALYSIS_NOTEST_FILE_NAME
 )
 
 
-class MakeFiles():
+class MakeFiles:
     def __init__(
-        self, 
-        project_context: ProjectContext, 
-        analysis_context: AnalysisContext | None = None
+        self,
+        project_context: ProjectContext,
+        analysis_context: AnalysisContext | None = None,
     ):
         self.project_context = project_context
         self.analysis_context = analysis_context
@@ -32,7 +32,9 @@ class MakeFiles():
 
         (analysis_root / notebook_file).touch()
         (analysis_root / ANALYSIS_CONTEXT_FILE_PATH / ANALYSIS_PLAN_FILE_NAME).touch()
-        (analysis_root / ANALYSIS_CONTEXT_FILE_PATH / ANALYSIS_OVERVIEW_FILE_NAME).touch()
+        (
+            analysis_root / ANALYSIS_CONTEXT_FILE_PATH / ANALYSIS_OVERVIEW_FILE_NAME
+        ).touch()
         (analysis_root / ANALYSIS_NOTES_FILE_PATH / ANALYSIS_NOTEST_FILE_NAME).touch()
 
     def add(self, notebook_name: str) -> None:

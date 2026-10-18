@@ -1,9 +1,8 @@
-from dataclasses import dataclass
-from pathlib import Path
 import re
-
 import tomllib
+from pathlib import Path
 
+from proof.actions.context import AgentModel
 from proof.config import (
     AGENT_NAMES,
     CLAUDE_AGENTS_PATH,
@@ -13,7 +12,6 @@ from proof.config import (
     PROOF_FILE_PATH,
 )
 from proof.exceptions import AgentConfigException
-from proof.actions.context import AgentModel
 
 
 def default_agents_toml() -> str:
@@ -98,7 +96,11 @@ def apply_agent_models(analysis_root: Path, models: dict[str, AgentModel]) -> No
 
         spec = models[name]
         front, model_count = re.subn(
-            r"^model:.*$", f"model: {spec.model_id}", match.group(1), count=1, flags=re.M
+            r"^model:.*$",
+            f"model: {spec.model_id}",
+            match.group(1),
+            count=1,
+            flags=re.M,
         )
         front, effort_count = re.subn(
             r"^effort:.*$", f"effort: {spec.effort}", front, count=1, flags=re.M
@@ -107,4 +109,4 @@ def apply_agent_models(analysis_root: Path, models: dict[str, AgentModel]) -> No
             raise AgentConfigException(
                 f"Agent file for [cyan]{name}[/cyan] is missing model or effort."
             )
-        path.write_text(f"---\n{front}\n---\n{text[match.end():]}", encoding="utf-8")
+        path.write_text(f"---\n{front}\n---\n{text[match.end() :]}", encoding="utf-8")

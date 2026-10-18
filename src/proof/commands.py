@@ -1,37 +1,35 @@
-from proof.utils import (
-    get_project_root,
-    get_analysis_root,
-    detect_pkg_manager,
-    require_proof_initialized,
-    require_analysis_exists,
-    require_notebook_exists,
-)
-from proof.actions.sessions.manage_session import require_session_exists
 from proof.actions import (
-    ProjectContext,
     AnalysisContext,
-    SessionContext,
-    MakeDirectories,
-    MakeFiles,
+    ApplyAgentModels,
     CopyFiles,
     InstallDependencies,
-    WriteToFiles,
+    MakeDirectories,
+    MakeFiles,
+    PrintToConsole,
+    ProjectContext,
     RunBashCommands,
     SaveAgentSession,
+    SessionContext,
     SymlinkFiles,
-    PrintToConsole,
-    ApplyAgentModels,
+    WriteToFiles,
 )
+from proof.actions.sessions.manage_session import require_session_exists
 from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
+from proof.utils import (
+    detect_pkg_manager,
+    get_analysis_root,
+    get_project_root,
+    require_analysis_exists,
+    require_notebook_exists,
+    require_proof_initialized,
+)
+
 
 def init_proof() -> None:
     project_root = get_project_root()
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     RunBashCommands(project_context).init()
     MakeDirectories(project_context).init()
@@ -40,16 +38,16 @@ def init_proof() -> None:
     WriteToFiles(project_context).init()
     PrintToConsole(project_context).init()
 
-def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTEBOOK_FILE_NAME) -> None:
+
+def create_analysis(
+    analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTEBOOK_FILE_NAME
+) -> None:
     project_root = get_project_root()
     require_proof_initialized(project_root)
     analysis_root = get_analysis_root(project_root, analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     analysis_context = AnalysisContext(
         analysis_name=analysis_name,
@@ -63,7 +61,12 @@ def create_analysis(analysis_name: str, notebook_name: str = DEFAULT_MARIMO_NOTE
     PrintToConsole(project_context, analysis_context).create()
 
 
-def start_session(analysis_name: str, notebook_name: str, session_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
+def start_session(
+    analysis_name: str,
+    notebook_name: str,
+    session_name: str,
+    notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT,
+) -> None:
     project_root = get_project_root()
     require_proof_initialized(project_root)
     require_analysis_exists(project_root, analysis_name)
@@ -71,10 +74,7 @@ def start_session(analysis_name: str, notebook_name: str, session_name: str, not
     require_notebook_exists(analysis_root, analysis_name, notebook_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     analysis_context = AnalysisContext(
         analysis_name=analysis_name,
@@ -91,7 +91,13 @@ def start_session(analysis_name: str, notebook_name: str, session_name: str, not
     ApplyAgentModels(project_context, analysis_context).start()
     RunBashCommands(project_context, analysis_context, session_context).start()
 
-def resume_session(analysis_name: str, notebook_name: str, session_name: str, notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT) -> None:
+
+def resume_session(
+    analysis_name: str,
+    notebook_name: str,
+    session_name: str,
+    notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT,
+) -> None:
     project_root = get_project_root()
     require_proof_initialized(project_root)
     require_analysis_exists(project_root, analysis_name)
@@ -100,10 +106,7 @@ def resume_session(analysis_name: str, notebook_name: str, session_name: str, no
     require_session_exists(analysis_root, analysis_name, session_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     analysis_context = AnalysisContext(
         analysis_name=analysis_name,
@@ -128,10 +131,7 @@ def add_notebook(analysis_name: str, notebook_name: str) -> None:
     analysis_root = get_analysis_root(project_root, analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     analysis_context = AnalysisContext(
         analysis_name=analysis_name,
@@ -148,10 +148,7 @@ def add_symlink(analysis_name: str, path: str) -> None:
     analysis_root = get_analysis_root(project_root, analysis_name)
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
-    project_context = ProjectContext(
-        project_root=project_root,
-        pkg_manager=pkg_manager
-    )
+    project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
     analysis_context = AnalysisContext(
         analysis_name=analysis_name,

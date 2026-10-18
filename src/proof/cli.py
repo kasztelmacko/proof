@@ -1,24 +1,27 @@
-import typer
 from typing import Annotated
 
-from proof.utils import run_command
+import typer
+
 from proof.commands import (
-    init_proof, 
-    create_analysis, 
-    start_session,
+    add_notebook,
+    add_symlink,
+    create_analysis,
+    init_proof,
     resume_session,
-    add_notebook, 
-    add_symlink
+    start_session,
 )
 from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
+from proof.utils import run_command
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 add_app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
 app.add_typer(add_app, name="add")
 
+
 @app.command()
 def init() -> None:
     run_command(lambda: init_proof())
+
 
 @app.command()
 def create(
@@ -28,14 +31,15 @@ def create(
     ],
     notebook_name: Annotated[
         str,
-        typer.Option(
-            "--notebook_name",
-            "-n",
-            help="name for analysis notebook name"
-        )
-    ] = DEFAULT_MARIMO_NOTEBOOK_FILE_NAME
+        typer.Option("--notebook_name", "-n", help="name for analysis notebook name"),
+    ] = DEFAULT_MARIMO_NOTEBOOK_FILE_NAME,
 ) -> None:
-    run_command(lambda: create_analysis(analysis_name=analysis_name, notebook_name=notebook_name))
+    run_command(
+        lambda: create_analysis(
+            analysis_name=analysis_name, notebook_name=notebook_name
+        )
+    )
+
 
 @app.command()
 def start(
@@ -43,10 +47,7 @@ def start(
         str,
         typer.Argument(help="Folder name of the analysis"),
     ],
-    notebook_name: Annotated[
-        str,
-        typer.Argument(help="name of a notebook to run")
-    ],
+    notebook_name: Annotated[str, typer.Argument(help="name of a notebook to run")],
     session_name: Annotated[
         str,
         typer.Argument(help="name of the agent session"),
@@ -54,13 +55,19 @@ def start(
     notebook_port: Annotated[
         str,
         typer.Option(
-            "--port",
-            "-p",
-            help="port on which to start marimo notebook server"
-        )
-    ] = DEFAULT_MARIMO_NOTEBOOK_PORT
+            "--port", "-p", help="port on which to start marimo notebook server"
+        ),
+    ] = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
-    run_command(lambda: start_session(analysis_name=analysis_name, notebook_name=notebook_name, session_name=session_name, notebook_port=notebook_port))
+    run_command(
+        lambda: start_session(
+            analysis_name=analysis_name,
+            notebook_name=notebook_name,
+            session_name=session_name,
+            notebook_port=notebook_port,
+        )
+    )
+
 
 @app.command()
 def resume(
@@ -68,10 +75,7 @@ def resume(
         str,
         typer.Argument(help="Folder name of the analysis"),
     ],
-    notebook_name: Annotated[
-        str,
-        typer.Argument(help="name of a notebook to run")
-    ],
+    notebook_name: Annotated[str, typer.Argument(help="name of a notebook to run")],
     session_name: Annotated[
         str,
         typer.Argument(help="name of the agent session to resume"),
@@ -79,13 +83,18 @@ def resume(
     notebook_port: Annotated[
         str,
         typer.Option(
-            "--port",
-            "-p",
-            help="port on which to start marimo notebook server"
-        )
-    ] = DEFAULT_MARIMO_NOTEBOOK_PORT
+            "--port", "-p", help="port on which to start marimo notebook server"
+        ),
+    ] = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
-    run_command(lambda: resume_session(analysis_name=analysis_name, notebook_name=notebook_name, session_name=session_name, notebook_port=notebook_port))
+    run_command(
+        lambda: resume_session(
+            analysis_name=analysis_name,
+            notebook_name=notebook_name,
+            session_name=session_name,
+            notebook_port=notebook_port,
+        )
+    )
 
 
 @add_app.command("notebook")
@@ -99,7 +108,9 @@ def notebook(
         typer.Argument(help="name of the notebook to add"),
     ],
 ) -> None:
-    run_command(lambda: add_notebook(analysis_name=analysis_name, notebook_name=notebook_name))
+    run_command(
+        lambda: add_notebook(analysis_name=analysis_name, notebook_name=notebook_name)
+    )
 
 
 @add_app.command("symlink")
@@ -110,7 +121,9 @@ def symlink(
     ],
     path: Annotated[
         str,
-        typer.Argument(help="path to a file under the project root to symlink into the analysis"),
+        typer.Argument(
+            help="path to a file under the project root to symlink into the analysis"
+        ),
     ],
 ) -> None:
     run_command(lambda: add_symlink(analysis_name=analysis_name, path=path))

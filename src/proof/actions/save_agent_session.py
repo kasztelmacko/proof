@@ -1,4 +1,4 @@
-from proof.actions.context import ProjectContext, AnalysisContext, SessionContext
+from proof.actions.context import AnalysisContext, ProjectContext, SessionContext
 from proof.actions.sessions.manage_session import (
     read_session_names,
     require_session_exists,
@@ -6,7 +6,7 @@ from proof.actions.sessions.manage_session import (
 )
 
 
-class SaveAgentSession():
+class SaveAgentSession:
     def __init__(
         self,
         project_context: ProjectContext,

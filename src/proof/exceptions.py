@@ -9,9 +9,7 @@ class ProofNotInitializedException(ProofError):
 
 class AnalysisNotFoundException(ProofError):
     def __init__(self, analysis_name: str):
-        super().__init__(
-            f"Analysis [cyan]{analysis_name}[/cyan] was not found"
-        )
+        super().__init__(f"Analysis [cyan]{analysis_name}[/cyan] was not found")
 
 
 class NotebookNotFoundException(ProofError):
@@ -40,4 +38,12 @@ class ToolNotFoundException(ProofError):
             message = f"{message}\n{install_hint}"
         super().__init__(message)
 
-CLI_ERRORS = (ProofNotInitializedException, AnalysisNotFoundException, NotebookNotFoundException, SessionNotFoundException, AgentConfigException, ToolNotFoundException)
+
+CLI_ERRORS = (
+    ProofNotInitializedException,
+    AnalysisNotFoundException,
+    NotebookNotFoundException,
+    SessionNotFoundException,
+    AgentConfigException,
+    ToolNotFoundException,
+)
