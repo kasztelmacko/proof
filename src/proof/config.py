@@ -9,9 +9,16 @@ PROOF_PROJECT_CONTEXT_FILE_NAME = "CONTEXT.md"
 PROOF_HELPER_FIRST_COL_WIDTH = 55
 
 CLAUDE_AGENT_FILES_PATH = Path(".claude")
+CLAUDE_AGENTS_PATH = CLAUDE_AGENT_FILES_PATH / "agents"
 CLAUDE_SESSIONS_FILE_PATH = CLAUDE_AGENT_FILES_PATH / "sessions.json"
-CLAUDE_STARTUP_MODEL = "claude-opus-4-6"
-CLAUDE_STARTUP_EFFORT = "medium"
+AGENT_NAMES = ("harness", "planner", "coder", "summarizer")
+EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
+DEFAULT_AGENT_MODELS = {
+    "harness": {"model": "claude-opus", "version": "4-6", "effort": "medium"},
+    "planner": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
+    "coder": {"model": "claude-opus", "version": "4-8", "effort": "medium"},
+    "summarizer": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
+}
 
 ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
 ANALYSIS_NOTES_FILE_PATH = Path("analysis_notes")

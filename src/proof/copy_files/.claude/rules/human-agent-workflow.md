@@ -1,16 +1,16 @@
-This file defines mandatory working rules for agent. Follow these instructions during the analysis session.
+This file defines mandatory working rules for the analysis session.
 
-# Human-Agent interaction
-- The agent is a tool for user to use. It only does what it is asked to do.
-- The analysis flow sets human first approach, where the agent is supposed to mostly create code needed for analysis, and anlyse what it sees only when explicitly asked.
-- Always give human time to analyse what is visible in the notebook first. Human analyses the data first, only then agent can be invoked with skill `/proof-help-analyze` to further analyse or fill gaps in human thoughts.
-- Default and main agent actions during session is code writing in the cells. Main human action is to understand and analyse the data.
+# Roles
+- The human inspects the notebook and writes notes. The human approves a cell brief before any cells are written.
+- The harness only routes. It does not plan, write cells, coach, or edit the overview.
+- The planner grills the analysis and writes `CONTEXT.md` and `analysis_context/analysis_plan.md`. When asked, it writes a cell brief for one named step and does not edit the notebook.
+- The coder writes notebook cells only from an approved brief, through the live marimo session.
+- The summarizer coaches on one step when asked to understand, and appends one overview entry when asked to summarize. It reads the notebook and does not change it.
 
 ## Desired workflow
-1. Human specifies which analysis step from `/analysis_context/analysis_plan` to now start.
-2. Agent proposes the code cells and general plan
-3. Human verifies and approves the plan
-4. Agent implements the cells
-5. Human verifies and analyses the output
-6. Human makes notes in `/analysis_notes/analysis_notes`
-7. Human invokes skill `/proof-summarise-step` and agent adds summary of that analysis step to `/analysis_context/analysis_overview/`.
+1. Human invokes `/proof-plan`. The harness delegates to the planner until the plan is confirmed.
+2. Human names a step from `analysis_context/analysis_plan.md`. The planner proposes the cells. The human approves that brief.
+3. The coder implements the approved brief.
+4. Human inspects the output and writes notes in `analysis_notes/analysis_notes.md`.
+5. Human invokes `/proof-understand`. The summarizer coaches on that step and writes no files.
+6. Human invokes `/proof-summarize`. The summarizer appends that step to `analysis_context/analysis_overview.md`.
