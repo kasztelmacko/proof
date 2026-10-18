@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 
+import tomllib
+
 from proof.config import (
     AGENT_NAMES,
     CLAUDE_AGENTS_PATH,
@@ -11,17 +13,7 @@ from proof.config import (
     PROOF_FILE_PATH,
 )
 from proof.exceptions import AgentConfigException
-
-try:
-    import tomllib
-except ModuleNotFoundError:
-    import tomli as tomllib
-
-
-@dataclass(frozen=True)
-class AgentModel:
-    model_id: str
-    effort: str
+from proof.actions.context import AgentModel
 
 
 def default_agents_toml() -> str:
@@ -104,13 +96,15 @@ def apply_agent_models(analysis_root: Path, models: dict[str, AgentModel]) -> No
                 f"Agent file for [cyan]{name}[/cyan] is missing frontmatter."
             )
 
-        front = match.group(1)
         spec = models[name]
-        for key, value in (("model", spec.model_id), ("effort", spec.effort)):
-            pattern = re.compile(rf"^{key}:.*$", re.MULTILINE)
-            line = f"{key}: {value}"
-            if pattern.search(front):
-                front = pattern.sub(line, front, count=1)
-            else:
-                front = front.rstrip() + f"\n{line}"
+        front, model_count = re.subn(
+            r"^model:.*$", f"model: {spec.model_id}", match.group(1), count=1, flags=re.M
+        )
+        front, effort_count = re.subn(
+            r"^effort:.*$", f"effort: {spec.effort}", front, count=1, flags=re.M
+        )
+        if model_count != 1 or effort_count != 1:
+            raise AgentConfigException(
+                f"Agent file for [cyan]{name}[/cyan] is missing model or effort."
+            )
         path.write_text(f"---\n{front}\n---\n{text[match.end():]}", encoding="utf-8")
