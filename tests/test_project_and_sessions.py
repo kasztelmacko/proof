@@ -67,10 +67,10 @@ def test_opencode_projection_writes_agents_and_model(tmp_path: Path) -> None:
     skill = tmp_path / ".opencode" / "skills" / "marimo-pair" / "SKILL.md"
 
     assert "mode: primary" in harness
-    assert "model: anthropic/claude-sonnet-4-6#medium" in harness
+    assert "model: anthropic/claude-opus-4-6#medium" in harness
     assert "mode: subagent" in planner
-    assert "model: anthropic/claude-opus-4-6#medium" in planner
-    assert '"model": "anthropic/claude-sonnet-4-6"' in config
+    assert "model: anthropic/claude-opus-5-5#medium" in planner
+    assert '"model": "anthropic/claude-opus-4-6"' in config
     assert skill.is_file()
 
 

@@ -145,4 +145,4 @@ def test_render_proof_toml_includes_every_tool() -> None:
     assert "[tools.codex.agents.harness]" in text
     assert "[tools.opencode.agents.harness]" in text
     assert 'model = "gpt-6.1-sol"' in text
-    assert 'model = "anthropic/claude-sonnet-4-6"' in text
+    assert 'model = "anthropic/claude-opus-4-6"' in text

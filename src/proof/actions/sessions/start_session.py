@@ -106,7 +106,6 @@ def pair_with_notebook(
         notebook_url,
         "--session",
         session_id,
-        "--with-token",
     ]
     if pair_flag:
         command.append(pair_flag)
@@ -116,7 +115,6 @@ def pair_with_notebook(
         env=env,
         capture_output=True,
         text=True,
-        input="\n",
         check=True,
     )
     return pair_prompt.stdout.strip()
