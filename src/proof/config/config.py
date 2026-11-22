@@ -16,7 +16,6 @@ ANALYSIS_OVERVIEW_FILE_NAME = "analysis_overview.md"
 ANALYSIS_NOTEST_FILE_NAME = "analysis_notes.md"
 
 DEFAULT_MARIMO_NOTEBOOK_FILE_NAME = "notebook"
-DEFAULT_MARIMO_NOTEBOOK_PORT = "8080"
 MARIMO_NOTEBOOK_FILE_EXTENSION = ".py"
 MARIMO_NOTEBOOK_EDIT_BASH = ["run", "marimo", "edit", "--watch"]
 MARIMO_NOTEBOOK_TOKEN = "marimo-notebook-token"

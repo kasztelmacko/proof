@@ -10,7 +10,7 @@ from proof.commands import (
     resume_session,
     start_session,
 )
-from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
+from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME
 from proof.utils import run_command
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
@@ -57,19 +57,12 @@ def start(
         str,
         typer.Argument(help="name of the agent session"),
     ],
-    notebook_port: Annotated[
-        str,
-        typer.Option(
-            "--port", "-p", help="port on which to start marimo notebook server"
-        ),
-    ] = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
     run_command(
         lambda: start_session(
             analysis_name=analysis_name,
             notebook_name=notebook_name,
             session_name=session_name,
-            notebook_port=notebook_port,
         )
     )
 
@@ -85,19 +78,12 @@ def resume(
         str,
         typer.Argument(help="name of the agent session to resume"),
     ],
-    notebook_port: Annotated[
-        str,
-        typer.Option(
-            "--port", "-p", help="port on which to start marimo notebook server"
-        ),
-    ] = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
     run_command(
         lambda: resume_session(
             analysis_name=analysis_name,
             notebook_name=notebook_name,
             session_name=session_name,
-            notebook_port=notebook_port,
         )
     )
 

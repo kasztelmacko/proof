@@ -1,5 +1,6 @@
 import os
 import shutil
+import socket
 from collections.abc import Callable
 from pathlib import Path
 
@@ -30,6 +31,12 @@ def run_command(action: Callable[[], None]) -> None:
 
 def get_project_root() -> Path:
     return Path.cwd()
+
+
+def find_free_port() -> str:
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1", 0))
+        return str(sock.getsockname()[1])
 
 
 def require_proof_initialized(project_root: Path) -> None:

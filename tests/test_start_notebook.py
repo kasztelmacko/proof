@@ -1,5 +1,4 @@
 import shutil
-import socket
 import subprocess
 from pathlib import Path
 
@@ -22,12 +21,6 @@ def _():
 if __name__ == "__main__":
     app.run()
 """
-
-
-def _free_port() -> str:
-    with socket.socket() as sock:
-        sock.bind(("127.0.0.1", 0))
-        return str(sock.getsockname()[1])
 
 
 def _require_tools() -> None:
@@ -94,6 +87,7 @@ def notebook_project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 
     captured: list[tuple[list[str], dict | None]] = []
     procs: list[subprocess.Popen] = []
+    ports: list[str] = []
     real_which = shutil.which
     real_run = subprocess.run
     agent_binary = str(tmp_path / "claude.cmd")
@@ -114,6 +108,7 @@ def notebook_project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     ).start_notebook_session
 
     def spy(**kwargs):
+        ports.append(kwargs["notebook_port"])
         proc = real_start(**kwargs)
         procs.append(proc)
         return proc
@@ -125,23 +120,22 @@ def notebook_project(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         spy,
     )
     try:
-        yield tmp_path, captured, procs
+        yield tmp_path, captured, procs, ports
     finally:
         for proc in procs:
             _stop(proc)
 
 
 def test_start_boots_notebook_and_passes_prompt(notebook_project) -> None:
-    _tmp_path, captured, procs = notebook_project
-    port = _free_port()
+    _tmp_path, captured, procs, ports = notebook_project
 
-    start_session("prices", "notebook.py", "explore", notebook_port=port)
+    start_session("prices", "notebook.py", "explore")
 
     assert procs, "notebook process was not started"
     assert procs[0].poll() is None
     assert captured, "agent command was not invoked"
     argv, env = captured[0]
-    assert f"http://localhost:{port}/" in argv[-1]
+    assert f"http://localhost:{ports[0]}/" in argv[-1]
     assert env is not None
     assert not env.get("ANTHROPIC_API_KEY")
     assert not env.get("OPENAI_API_KEY")
@@ -149,15 +143,13 @@ def test_start_boots_notebook_and_passes_prompt(notebook_project) -> None:
 
 
 def test_resume_passes_prompt_to_resume_command(notebook_project) -> None:
-    _tmp_path, captured, procs = notebook_project
-    port = _free_port()
-    start_session("prices", "notebook.py", "explore", notebook_port=port)
+    _tmp_path, captured, procs, ports = notebook_project
+    start_session("prices", "notebook.py", "explore")
     _stop(procs.pop())
 
-    resume_port = _free_port()
-    resume_session("prices", "notebook.py", "explore", notebook_port=resume_port)
+    resume_session("prices", "notebook.py", "explore")
 
     assert procs[-1].poll() is None
     argv, _env = captured[-1]
     assert "--resume" in argv
-    assert f"http://localhost:{resume_port}/" in argv[-1]
+    assert f"http://localhost:{ports[-1]}/" in argv[-1]

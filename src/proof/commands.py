@@ -14,9 +14,10 @@ from proof.actions import (
     WriteToFiles,
 )
 from proof.actions.sessions.manage_session import require_session_exists
-from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME, DEFAULT_MARIMO_NOTEBOOK_PORT
+from proof.config import DEFAULT_MARIMO_NOTEBOOK_FILE_NAME
 from proof.utils import (
     detect_pkg_manager,
+    find_free_port,
     get_analysis_root,
     get_project_root,
     require_analysis_exists,
@@ -65,7 +66,6 @@ def start_session(
     analysis_name: str,
     notebook_name: str,
     session_name: str,
-    notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
     project_root = get_project_root()
     require_proof_initialized(project_root)
@@ -83,7 +83,7 @@ def start_session(
 
     session_context = SessionContext(
         notebook_name=notebook_name,
-        notebook_port=notebook_port,
+        notebook_port=find_free_port(),
         session_name=session_name,
     )
 
@@ -96,7 +96,6 @@ def resume_session(
     analysis_name: str,
     notebook_name: str,
     session_name: str,
-    notebook_port: str = DEFAULT_MARIMO_NOTEBOOK_PORT,
 ) -> None:
     project_root = get_project_root()
     require_proof_initialized(project_root)
@@ -115,7 +114,7 @@ def resume_session(
 
     session_context = SessionContext(
         notebook_name=notebook_name,
-        notebook_port=notebook_port,
+        notebook_port=find_free_port(),
         session_name=session_name,
     )
 
