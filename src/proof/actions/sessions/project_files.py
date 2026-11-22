@@ -4,8 +4,9 @@ from importlib.resources import as_file, files
 from pathlib import Path
 
 from proof.actions.context import AgentModel
-from proof.agent_tools import AGENT_NAMES, AgentTool
+from proof.agent_tools import AgentTool
 from proof.config import PROOF_COPY_FILES_PATH
+from proof.config.agent_config import AGENT_NAMES
 from proof.exceptions import AgentConfigException
 
 _FRONTMATTER = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.DOTALL)

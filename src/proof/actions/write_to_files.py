@@ -1,9 +1,11 @@
+from importlib.resources import files
+
 from proof.actions.context import AnalysisContext, ProjectContext
 from proof.agent_tools import render_proof_toml
 from proof.config import (
     PROOF_CONFIG_FILE_NAME,
+    PROOF_COPY_FILES_PATH,
     PROOF_DOTENV_FILE_NAME,
-    PROOF_DOTENV_TEMPLATE,
     PROOF_FILE_PATH,
 )
 
@@ -25,5 +27,7 @@ class WriteToFiles:
             encoding="utf-8",
         )
         env_path = proof_dir / PROOF_DOTENV_FILE_NAME
-        if not env_path.exists():
-            env_path.write_text(PROOF_DOTENV_TEMPLATE, encoding="utf-8")
+        template = files("proof").joinpath(
+            PROOF_COPY_FILES_PATH, PROOF_DOTENV_FILE_NAME
+        )
+        env_path.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")

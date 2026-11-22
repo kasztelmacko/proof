@@ -2,11 +2,11 @@ import pytest
 
 from proof.agent_tools import (
     TOOLS,
-    ModelSpec,
     agent_session_id,
     get_tool,
     render_proof_toml,
 )
+from proof.config.agent_config import ModelSpec
 from proof.exceptions import AgentConfigException
 
 

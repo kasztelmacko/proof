@@ -2,13 +2,9 @@ import tomllib
 from pathlib import Path
 
 from proof.actions.context import AgentModel
-from proof.agent_tools import (
-    AGENT_NAMES,
-    EFFORT_LEVELS,
-    ModelSpec,
-    get_tool,
-)
+from proof.agent_tools import get_tool
 from proof.config import PROOF_CONFIG_FILE_NAME, PROOF_FILE_PATH
+from proof.config.agent_config import AGENT_NAMES, EFFORT_LEVELS, ModelSpec
 from proof.exceptions import AgentConfigException
 
 

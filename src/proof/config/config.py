@@ -7,11 +7,6 @@ PROOF_COPY_FILES_PATH = "copy_files"
 PROOF_FILE_PATH = ".proof"
 PROOF_PROJECT_CONTEXT_FILE_NAME = "CONTEXT.md"
 PROOF_HELPER_FIRST_COL_WIDTH = 55
-PROOF_DOTENV_TEMPLATE = """# Optional. Leave a key empty to use that CLI's existing login.
-ANTHROPIC_API_KEY=
-OPENAI_API_KEY=
-OPENCODE_API_KEY=
-"""
 
 ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
 ANALYSIS_NOTES_FILE_PATH = Path("analysis_notes")
