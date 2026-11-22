@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 import typer
 
@@ -19,8 +19,13 @@ app.add_typer(add_app, name="add")
 
 
 @app.command()
-def init() -> None:
-    run_command(lambda: init_proof())
+def init(
+    agent: Annotated[
+        Literal["claude", "codex", "opencode"],
+        typer.Option("--agent", help="Agent CLI: claude, codex, or opencode"),
+    ],
+) -> None:
+    run_command(lambda: init_proof(agent_tool=agent))
 
 
 @app.command()

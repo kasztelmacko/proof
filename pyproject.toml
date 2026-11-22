@@ -20,6 +20,7 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "pre-commit>=4.7.0",
+    "pytest>=8.3.0",
     "ruff>=0.17.1",
 ]
 
@@ -50,3 +51,10 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["proof"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "integration: starts a real marimo notebook",
+]

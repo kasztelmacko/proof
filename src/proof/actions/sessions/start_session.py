@@ -1,17 +1,36 @@
+import os
 import shutil
 import subprocess
 import time
 from pathlib import Path
-from uuid import NAMESPACE_URL, uuid5
 
+from dotenv import dotenv_values
+
+from proof.agent_tools import AgentTool
 from proof.config import (
     MARIMO_NOTEBOOK_EDIT_BASH,
     MARIMO_NOTEBOOK_TOKEN,
+    NOTEBOOK_READY_SECONDS,
+    PROOF_DOTENV_FILE_NAME,
+    PROOF_FILE_PATH,
 )
+from proof.exceptions import NotebookTimeoutException, ToolNotFoundException
 
 
-def claude_session_id(session_name: str) -> str:
-    return str(uuid5(NAMESPACE_URL, f"proof.agent_session.{session_name}"))
+def build_session_env(project_root: Path, analysis_root: Path) -> dict[str, str]:
+    env = os.environ.copy()
+    _overlay_dotenv(env, project_root / PROOF_FILE_PATH / PROOF_DOTENV_FILE_NAME)
+    _overlay_dotenv(env, analysis_root / ".env")
+    env["MARIMO_TOKEN"] = MARIMO_NOTEBOOK_TOKEN
+    return env
+
+
+def _overlay_dotenv(env: dict[str, str], path: Path) -> None:
+    if not path.is_file():
+        return
+    for key, value in dotenv_values(path).items():
+        if value and value.strip():
+            env[key] = value
 
 
 def start_notebook_session(
@@ -20,8 +39,8 @@ def start_notebook_session(
     notebook_name: str,
     notebook_port: str,
     env: dict[str, str],
-) -> None:
-    subprocess.Popen(
+) -> subprocess.Popen:
+    return subprocess.Popen(
         [
             pkg_manager,
             *MARIMO_NOTEBOOK_EDIT_BASH,
@@ -43,10 +62,13 @@ def pair_with_notebook(
     analysis_root: Path,
     notebook_port: str,
     env: dict[str, str],
+    pair_flag: str | None,
 ) -> str:
     notebook_url = f"http://localhost:{notebook_port}/"
     sessions_url = f"http://127.0.0.1:{notebook_port}/api/sessions"
-    while True:
+    deadline = time.monotonic() + NOTEBOOK_READY_SECONDS
+    session_id = ""
+    while time.monotonic() < deadline:
         sessions_response = subprocess.run(
             [
                 "curl",
@@ -72,20 +94,24 @@ def pair_with_notebook(
             if session_id:
                 break
         time.sleep(0.5)
+    if not session_id:
+        raise NotebookTimeoutException()
 
+    command = [
+        shutil.which("uvx"),
+        "marimo@latest",
+        "pair",
+        "prompt",
+        "--url",
+        notebook_url,
+        "--session",
+        session_id,
+        "--with-token",
+    ]
+    if pair_flag:
+        command.append(pair_flag)
     pair_prompt = subprocess.run(
-        [
-            shutil.which("uvx"),
-            "marimo@latest",
-            "pair",
-            "prompt",
-            "--url",
-            notebook_url,
-            "--session",
-            session_id,
-            "--with-token",
-            "--claude",
-        ],
+        command,
         cwd=analysis_root,
         env=env,
         capture_output=True,
@@ -96,65 +122,43 @@ def pair_with_notebook(
     return pair_prompt.stdout.strip()
 
 
-def start_agent_session(
+def run_agent_process(
+    *,
     analysis_root: Path,
     notebook_port: str,
     env: dict[str, str],
-    session_name: str,
-    model: str,
+    tool: AgentTool,
+    session_id: str,
+    model_id: str,
     effort: str,
+    resume: bool,
+    has_stored_id: bool,
 ) -> None:
-    pair_prompt = pair_with_notebook(
+    prompt = pair_with_notebook(
         analysis_root=analysis_root,
         notebook_port=notebook_port,
         env=env,
+        pair_flag=tool.pair_flag,
     )
-    subprocess.run(
-        [
-            shutil.which("claude"),
-            "--session-id",
-            claude_session_id(session_name),
-            "--agent",
-            "harness",
-            "--model",
-            model,
-            "--effort",
-            effort,
-            pair_prompt,
-        ],
-        cwd=analysis_root,
-        env=env,
-        check=True,
-    )
-
-
-def resume_agent_session(
-    analysis_root: Path,
-    notebook_port: str,
-    env: dict[str, str],
-    session_name: str,
-    model: str,
-    effort: str,
-) -> None:
-    pair_prompt = pair_with_notebook(
-        analysis_root=analysis_root,
-        notebook_port=notebook_port,
-        env=env,
-    )
-    subprocess.run(
-        [
-            shutil.which("claude"),
-            "--resume",
-            claude_session_id(session_name),
-            "--agent",
-            "harness",
-            "--model",
-            model,
-            "--effort",
-            effort,
-            pair_prompt,
-        ],
-        cwd=analysis_root,
-        env=env,
-        check=True,
-    )
+    binary = shutil.which(tool.binary)
+    if binary is None:
+        raise ToolNotFoundException(
+            tool_name=tool.binary, install_hint=tool.install_hint
+        )
+    if resume and has_stored_id:
+        argv = tool.resume_command(
+            binary_path=binary,
+            session_id=session_id,
+            model_id=model_id,
+            effort=effort,
+            prompt=prompt,
+        )
+    else:
+        argv = tool.start_command(
+            binary_path=binary,
+            session_id=session_id,
+            model_id=model_id,
+            effort=effort,
+            prompt=prompt,
+        )
+    subprocess.run(argv, cwd=analysis_root, env=env, check=True)

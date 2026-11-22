@@ -25,17 +25,17 @@ from proof.utils import (
 )
 
 
-def init_proof() -> None:
+def init_proof(agent_tool: str) -> None:
     project_root = get_project_root()
     pkg_manager = detect_pkg_manager(project_root=project_root)
 
     project_context = ProjectContext(project_root=project_root, pkg_manager=pkg_manager)
 
-    RunBashCommands(project_context).init()
+    RunBashCommands(project_context).init(agent_tool=agent_tool)
     MakeDirectories(project_context).init()
     MakeFiles(project_context).init()
     InstallDependencies(project_context).init()
-    WriteToFiles(project_context).init()
+    WriteToFiles(project_context).init(agent_tool=agent_tool)
     PrintToConsole(project_context).init()
 
 

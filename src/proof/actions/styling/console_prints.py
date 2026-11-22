@@ -22,7 +22,10 @@ def print_commands_table(console: Console) -> None:
         "Command", style="dim", min_width=PROOF_HELPER_FIRST_COL_WIDTH, no_wrap=True
     )
     table.add_column("Description")
-    table.add_row("proof init", "Create proof root folder")
+    table.add_row(
+        "proof init --agent [cyan]<claude|codex|opencode>[/cyan]",
+        "Create proof root folder",
+    )
     table.add_row("proof create [cyan]<analysis_name>[/cyan]", "Create a new analysis")
     table.add_row(
         "proof start [cyan]<analysis_name> <notebook_name> <session_name>[/cyan]",

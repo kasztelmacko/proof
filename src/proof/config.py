@@ -2,23 +2,16 @@ from pathlib import Path
 from typing import Literal
 
 PROOF_CONFIG_FILE_NAME = "proof.toml"
-PROOF_ENV_FILE_NAME = ".env.example"
+PROOF_DOTENV_FILE_NAME = ".env"
 PROOF_COPY_FILES_PATH = "copy_files"
 PROOF_FILE_PATH = ".proof"
 PROOF_PROJECT_CONTEXT_FILE_NAME = "CONTEXT.md"
 PROOF_HELPER_FIRST_COL_WIDTH = 55
-
-CLAUDE_AGENT_FILES_PATH = Path(".claude")
-CLAUDE_AGENTS_PATH = CLAUDE_AGENT_FILES_PATH / "agents"
-CLAUDE_SESSIONS_FILE_PATH = CLAUDE_AGENT_FILES_PATH / "sessions.json"
-AGENT_NAMES = ("harness", "planner", "coder", "summarizer")
-EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
-DEFAULT_AGENT_MODELS = {
-    "harness": {"model": "claude-opus", "version": "4-6", "effort": "medium"},
-    "planner": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
-    "coder": {"model": "claude-opus", "version": "4-8", "effort": "medium"},
-    "summarizer": {"model": "claude-opus", "version": "5-5", "effort": "medium"},
-}
+PROOF_DOTENV_TEMPLATE = """# Optional. Leave a key empty to use that CLI's existing login.
+ANTHROPIC_API_KEY=
+OPENAI_API_KEY=
+OPENCODE_API_KEY=
+"""
 
 ANALYSIS_CONTEXT_FILE_PATH = Path("analysis_context")
 ANALYSIS_NOTES_FILE_PATH = Path("analysis_notes")
@@ -32,7 +25,7 @@ DEFAULT_MARIMO_NOTEBOOK_PORT = "8080"
 MARIMO_NOTEBOOK_FILE_EXTENSION = ".py"
 MARIMO_NOTEBOOK_EDIT_BASH = ["run", "marimo", "edit", "--watch"]
 MARIMO_NOTEBOOK_TOKEN = "marimo-notebook-token"
-
+NOTEBOOK_READY_SECONDS = 60
 
 PkgManager = Literal["poetry", "uv", "pip", "conda"]
 PACKAGE_MANAGER_INDICATORS = {

@@ -31,6 +31,11 @@ class AgentConfigException(ProofError):
         super().__init__(message)
 
 
+class NotebookTimeoutException(ProofError):
+    def __init__(self):
+        super().__init__("Marimo notebook did not become ready within 60 seconds.")
+
+
 class ToolNotFoundException(ProofError):
     def __init__(self, tool_name: str, install_hint: str | None = None):
         message = f"Required tool not found on PATH: [cyan]{tool_name}[/cyan]"
@@ -45,5 +50,6 @@ CLI_ERRORS = (
     NotebookNotFoundException,
     SessionNotFoundException,
     AgentConfigException,
+    NotebookTimeoutException,
     ToolNotFoundException,
 )

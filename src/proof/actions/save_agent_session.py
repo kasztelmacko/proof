@@ -1,9 +1,11 @@
 from proof.actions.context import AnalysisContext, ProjectContext, SessionContext
+from proof.actions.sessions.agent_models import load_agent_tool_name
 from proof.actions.sessions.manage_session import (
-    read_session_names,
+    read_sessions,
     require_session_exists,
-    write_session_names,
+    write_sessions,
 )
+from proof.agent_tools import allocate_session_id, get_tool
 
 
 class SaveAgentSession:
@@ -20,10 +22,11 @@ class SaveAgentSession:
     def start(self) -> None:
         analysis_root = self.analysis_context.analysis_root
         session_name = self.session_context.session_name
-        names = read_session_names(analysis_root)
-        if session_name not in names:
-            names.append(session_name)
-            write_session_names(analysis_root, names)
+        tool = get_tool(load_agent_tool_name(self.project_context.project_root))
+        sessions = read_sessions(analysis_root)
+        if session_name not in sessions:
+            sessions[session_name] = allocate_session_id(tool, session_name)
+            write_sessions(analysis_root, sessions)
 
     def resume(self) -> None:
         require_session_exists(
